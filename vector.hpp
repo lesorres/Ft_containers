@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/01/23 20:55:56 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/01/24 22:51:24 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ namespace ft
 			typedef typename		allocator_type::difference_type			difference_type; // std::ptrdiff_t is the signed integer type of the result of subtracting two pointers.
 			typedef typename		allocator_type::pointer					pointer;
 			typedef typename		allocator_type::const_pointer			const_pointer;
-			typedef					ft::vectorIt<value_type>				iterator;
-			typedef					ft::vectorIt<const value_type>			const_iterator;
-			// typedef typename		ft::reverse_vectorIt<value_type>		reverse_iterator;
-			// typedef typename		ft::reverse_vectorIt<<const value_type>	const_reverse_iterator;
+			typedef	typename		ft::vectorIt<value_type>				iterator;
+			typedef	typename		ft::vectorIt<const value_type>			const_iterator;
+			typedef	typename		ft::reverse_vectorIt<value_type>		reverse_iterator;
+			typedef	typename		ft::reverse_vectorIt<const value_type>	const_reverse_iterator;
 
 			// typedef vectorIt<value_type, бла бла > iterotor;
 			// typedef typename		ft::vector_iterator<value_type>			iterator;
@@ -153,22 +153,20 @@ namespace ft
 			const_iterator			begin() const;
 			iterator				end();
 			const_iterator			end() const;
-			// reverse_iterator		rbegin();
-			// const_reverse_iterator	rbegin() const;
-			// reverse_iterator		rend();
-			// const_reverse_iterator	rend() const;
+			reverse_iterator		rbegin();
+			const_reverse_iterator	rbegin() const;
+			reverse_iterator		rend();
+			const_reverse_iterator	rend() const;
 
 			//CAPACITY
-			size_type				size() const;
+			size_type				size() const					{ return (_size); };
+			size_type				capacity() const				{ return (_capacity); };
 			size_type				max_size() const;
 			void					resize (size_type n, value_type val = value_type());
-			size_type				capacity() const;
 			bool					empty() const;
 			void					reserve (size_type n);
 
 			//ELEMENT ACCESS
-			reference				operator[] (size_type n) 		{ return (_begin[n]); };	//No bounds checking is performed.
-			const_reference			operator[] (size_type n) const	{ return (_begin[n]); };
 			reference				at (size_type n)											//With bounds checking
 			{
 				if (n >= _size)
@@ -181,11 +179,14 @@ namespace ft
 					throw std::out_of_range ("vector");
 				return (_begin[n]);
 			};
-
-			reference				front();
-			const_reference			front() const;
-			reference				ack();
-			const_reference			back() const;
+			reference				operator[] (size_type n)		{ return (_begin[n]); };	//No bounds checking
+			const_reference			operator[] (size_type n) const	{ return (_begin[n]); };
+			reference				front()							{ return (*_begin); };
+			const_reference			front() const					{ return (*_begin); };
+			reference				back()							{ return (*(_begin + _size - 1)); };
+			const_reference			back() const					{ return (*(_begin + _size - 1)); };
+			pointer					data()							{ return (_begin); };
+			const_pointer			data() const					{ return (_begin); };
 
 			//MODIFIERS
 			template <class InputIterator>
