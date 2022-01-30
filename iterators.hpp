@@ -1,5 +1,7 @@
+# if 0
 //for reference:
 #include <iterator>
+#endif
 
 namespace ft 
 {
@@ -34,16 +36,6 @@ namespace ft
 	// 		return distance(first, second, &p);
 	// }
 
-	template<class Category, class T, class Distance = ptrdiff_t,
-			class Pointer = T*, class Reference = T&>
-	struct iterator
-	{
-		typedef T										value_type;
-		typedef Distance 								difference_type;
-		typedef Pointer									pointer;
-		typedef Reference								reference;
-		typedef Category								iterator_category;
-	};
 
 	template<class Iterator> //iterator 20
 	struct iterator_traits
@@ -75,41 +67,56 @@ namespace ft
 		typedef random_access_iterator_tag				iterator_category;
 	};
 
+	template<class Category, class T, class Distance = ptrdiff_t,
+			class Pointer = T*, class Reference = T&>
+	struct iterator
+	{
+		typedef T										value_type;
+		typedef Distance 								difference_type;
+		typedef Pointer									pointer;
+		typedef Reference								reference;
+		typedef Category								iterator_category;
+	};
 
-	// template <class T>
-	// class vectorIt : public iterator <random_access_iterator_tag, T>
-	// {
-	// 	public:
-
-	// 		typedef vectorIt<T>																iterator_type;
-	// 		typedef typename ft::iterator<random_access_iterator_tag, T>::value_type		value_type;
-	// 		typedef typename ft::iterator<random_access_iterator_tag, T>::difference_type	difference_type;
-	// 		typedef typename ft::iterator<random_access_iterator_tag, T>::pointer			pointer;
-	// 		typedef typename ft::iterator<random_access_iterator_tag, T>::reference			reference;
-	// 		typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category	iterator_category;
-
-	// 	private: // protected?
-	// 		pointer																			current;
-
-	template <class Iter> // iterator 1097, 1314
-	//Iter -> as a pointer
-	class vectorIt
+	template <class T>
+	class vectorIt : public iterator <random_access_iterator_tag, T>
 	{
 		public:
-			typedef Iter															iterator_type;
-			typedef typename ft::iterator_traits<iterator_type>::value_type			value_type;
-			typedef typename ft::iterator_traits<iterator_type>::difference_type	difference_type	;
-			typedef typename ft::iterator_traits<iterator_type>::pointer			pointer;
-			typedef typename ft::iterator_traits<iterator_type>::reference			reference;
-			typedef typename ft::iterator_traits<iterator_type>::iterator_category 	iterator_category;
-		private: // protected?
+
+			typedef vectorIt<T>																iterator_type;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::value_type		value_type;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::difference_type	difference_type;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::pointer			pointer;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::reference			reference;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category	iterator_category;
+
+
+		public: // protected?
 			pointer																			current;
+			explicit vectorIt(pointer const _x) : current(_x) {};
+
+			template <typename, typename> friend class vector;
+
+	// template <class Iter> // iterator 1097, 1314
+	// //Iter -> as a pointer
+	// class vectorIt
+	// {
+	// 	public:
+	// 		typedef Iter															iterator_type;
+	// 		typedef typename ft::iterator_traits<iterator_type>::value_type			value_type;
+	// 		typedef typename ft::iterator_traits<iterator_type>::difference_type	difference_type	;
+	// 		typedef typename ft::iterator_traits<iterator_type>::pointer			pointer;
+	// 		typedef typename ft::iterator_traits<iterator_type>::reference			reference;
+	// 		typedef typename ft::iterator_traits<iterator_type>::iterator_category 	iterator_category;
+	// 	private: // protected?
+	// 		pointer																			current;
 		public:
 			iterator_type base() const {return current;} // iterator 1431
+			// pointer base() const {return current;} // iterator 1431
 
 			vectorIt() : current(NULL) {}; // iterator 1119
 
-			explicit vectorIt(iterator_type const &_x) : current(_x) {};
+			explicit vectorIt(iterator_type const &_x) : current(_x.current) {};
 
 			template <class _Up>
 			vectorIt(const vectorIt<_Up>& _x) : current(_x.base()) {}; // iterator 1124
@@ -147,7 +154,6 @@ namespace ft
 			// template <class _Iter1>
 			// friend bool operator<=(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
 	};
-
 	template <class _Iter1>
 	inline bool operator==(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return __x.base() == __y.base(); }
 	template <class _Iter1>
@@ -162,7 +168,6 @@ namespace ft
 	template <class _Iter1>
 	inline bool operator<=(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return !(__y < __x); }
 }
-
 
 /* vector:
 650 - reverse_iterator

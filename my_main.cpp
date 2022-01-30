@@ -1,4 +1,4 @@
-#define STD 1
+#define STD 0
 
 #include <iostream>
 #include <cstdlib>
@@ -14,7 +14,7 @@
 
 
 #if STD
-namespace ft = std;
+// namespace ft = std;
 // source: https://en.cppreference.com/w/cpp/container/vector/vector
 template<typename T>
 std::ostream& operator<<(std::ostream& s, const ft::vector<T>& v) 
@@ -117,6 +117,9 @@ int main ()
 	//*************   assignment operator test   *************//
 
 	#else
+	ft::vector<std::string> strV1 (3, "hi");
+	ft::vector<std::string> strV2 (14, "bla");
+	
 	// for (size_t i = 0; i < strV1._size; ++i)
 	// 	 std::cout << "strV1 " << strV1[i] << "\n";
 	// for (size_t i = 0; i < strV2._size; ++i)
@@ -125,6 +128,34 @@ int main ()
 	std::cout << "strV1[1] " << strV2.at(1) << "\n"; //same as std::vector
 	std::cout << "strV1[7] " << strV2.at(7) << "\n"; //same as std::vector
 	#endif
+
+	//*************   max_size   *************//
+	ft::vector<std::string> strV5 (3, "hi");
+	ft::vector<std::string> strV6 (14, "bla");
+	// ft::vector<std::string> strV7 (strV6.begin(), strV6.end());
 	
+	std::cout << strV5.max_size() << "\n";
+	std::cout << strV6.max_size() << "\n";
+	// std::cout << strV7.max_size() << "\n";
+	//*************   max_size   *************//
+
+	//*************   reserve   *************//
+	strV5.reserve(768614336404564651);
+	//*************   reserve   *************//
+
+	//*************   iterators   *************//
+	ft::vector<int>::iterator strV5It;
+	ft::vector<int>::iterator strV6It;
+	ft::vector<int>::iterator strV7It (strV5It);
+	//*************   iterators   *************//
+	
+
+	//*************   end, begin, erase   *************//
+	std::cout << "\n//*************   end, begin, erase   *************//\n";
+	ft::vector<int>::iterator begin = strV5.begin();
+	ft::vector<int>::iterator end = strV5.end();
+	for (; begin != end; ++begin) 
+		std::cout << *begin << "\n";
+	//*************   end, begin, erase   *************//
 	return(0);
 }
