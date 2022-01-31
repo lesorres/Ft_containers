@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/01/30 21:37:31 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/01/31 23:16:24 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ namespace ft
 			typedef typename		allocator_type::const_pointer			const_pointer;
 			typedef					ft::vectorIt<value_type>				iterator;
 			typedef	typename		ft::vectorIt<const value_type>			const_iterator;
-			// typedef	typename		ft::reverse_vectorIt<value_type>		reverse_iterator;
-			// typedef	typename		ft::reverse_vectorIt<const value_type>	const_reverse_iterator;
+			// typedef	typename		ft::reverse_vectorIt<iterator>			reverse_iterator;
+			// typedef	typename		ft::reverse_vectorIt<const_iterator>	const_reverse_iterator;
 
 			// typedef vectorIt<value_type, бла бла > iterotor;
 			// typedef typename		ft::vector_iterator<value_type>			iterator;

@@ -140,7 +140,7 @@ int main ()
 	//*************   max_size   *************//
 
 	//*************   reserve   *************//
-	strV5.reserve(768614336404564651);
+	// strV5.reserve(768614336404564651);
 	//*************   reserve   *************//
 
 	//*************   iterators   *************//
@@ -152,9 +152,10 @@ int main ()
 
 	//*************   end, begin, erase   *************//
 	std::cout << "\n//*************   end, begin, erase   *************//\n";
-	ft::vector<int>::iterator begin = strV5.begin();
-	ft::vector<int>::iterator end = strV5.end();
-	for (; begin != end; ++begin) 
+	ft::vector<std::string>::iterator begin = strV5.begin();
+	ft::vector<std::string>::iterator end = strV5.end();
+	std::cout << (begin != end) << "\n";
+	for (; begin != end; ++begin)
 		std::cout << *begin << "\n";
 	//*************   end, begin, erase   *************//
 	return(0);

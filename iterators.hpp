@@ -78,25 +78,6 @@ namespace ft
 		typedef Category								iterator_category;
 	};
 
-	template <class T>
-	class vectorIt : public iterator <random_access_iterator_tag, T>
-	{
-		public:
-
-			typedef vectorIt<T>																iterator_type;
-			typedef typename ft::iterator<random_access_iterator_tag, T>::value_type		value_type;
-			typedef typename ft::iterator<random_access_iterator_tag, T>::difference_type	difference_type;
-			typedef typename ft::iterator<random_access_iterator_tag, T>::pointer			pointer;
-			typedef typename ft::iterator<random_access_iterator_tag, T>::reference			reference;
-			typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category	iterator_category;
-
-
-		public: // protected?
-			pointer																			current;
-			explicit vectorIt(pointer const _x) : current(_x) {};
-
-			template <typename, typename> friend class vector;
-
 	// template <class Iter> // iterator 1097, 1314
 	// //Iter -> as a pointer
 	// class vectorIt
@@ -108,18 +89,37 @@ namespace ft
 	// 		typedef typename ft::iterator_traits<iterator_type>::pointer			pointer;
 	// 		typedef typename ft::iterator_traits<iterator_type>::reference			reference;
 	// 		typedef typename ft::iterator_traits<iterator_type>::iterator_category 	iterator_category;
-	// 	private: // protected?
-	// 		pointer																			current;
+
+	template <class T>
+	class vectorIt : public iterator <random_access_iterator_tag, T>
+	{
 		public:
-			iterator_type base() const {return current;} // iterator 1431
+
+			// typedef Iter																	iterator_type;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::value_type		value_type;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::difference_type	difference_type;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::pointer			pointer;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::reference			reference;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category	iterator_category;
+
+		private: // protected?
+			pointer																			current;
+
+			explicit vectorIt(pointer const _x) : current(_x) {};
+			template <typename, typename> friend class vector;
+
+		public:
+			pointer base() const {return current;} // iterator 1431
 			// pointer base() const {return current;} // iterator 1431
 
 			vectorIt() : current(NULL) {}; // iterator 1119
 
-			explicit vectorIt(iterator_type const &_x) : current(_x.current) {};
+			// explicit vectorIt(pointer const &_x) : current(_x) {};
+			// explicit vectorIt(iterator_type const &_x) : current(_x.current) {};
 
 			template <class _Up>
 			vectorIt(const vectorIt<_Up>& _x) : current(_x.base()) {}; // iterator 1124
+			// vectorIt(const vectorIt<_Up>& _x) : current(_x.base()) {}; // iterator 1124
 
 			// под вопросом, возможно is_convertible нужен чтобы в конструктор не приходили левые типы, но это 11 стандарт
 			// template <class _Up>
@@ -141,32 +141,32 @@ namespace ft
 
 			// http://www.cplusplus.com/reference/iterator/reverse_iterator/operators/
 			// no need in friend functions, because base is public
-			// template <class _Iter1> // iterator 1451
-			// friend bool operator==(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
-			// template <class _Iter1>
-			// friend bool operator!=(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
-			// template <class _Iter1>
-			// friend bool operator<(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
-			// template <class _Iter1>
-			// friend bool operator>(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
-			// template <class _Iter1>
-			// friend bool operator>=(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
-			// template <class _Iter1>
-			// friend bool operator<=(const vectorIt<_Iter1>&, const vectorIt<_Iter1>&);
+			// template <class T> // iterator 1451
+			// friend bool operator==(const vectorIt<T>&, const vectorIt<T>&);
+			// template <class T>
+			// friend bool operator!=(const vectorIt<T>&, const vectorIt<T>&);
+			// template <class T>
+			// friend bool operator<(const vectorIt<T>&, const vectorIt<T>&);
+			// template <class T>
+			// friend bool operator>(const vectorIt<T>&, const vectorIt<T>&);
+			// template <class T>
+			// friend bool operator>=(const vectorIt<T>&, const vectorIt<T>&);
+			// template <class T>
+			// friend bool operator<=(const vectorIt<T>&, const vectorIt<T>&);
 	};
-	template <class _Iter1>
-	inline bool operator==(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return __x.base() == __y.base(); }
-	template <class _Iter1>
-	inline bool operator!=(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return !(__x == __y); }
-	template <class _Iter1>
+	template <class T>
+	inline bool operator==(const vectorIt<T>& __x, const vectorIt<T>& __y) { return __x.base() == __y.base(); }
+	template <class T>
+	inline bool operator!=(const vectorIt<T>& __x, const vectorIt<T>& __y) { return !(__x == __y); }
+	template <class T>
 	// add exeption "Attempted to compare incomparable iterators" // iterator 1535
-	inline bool operator<(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return __x.base() < __y.base(); }
-	template <class _Iter1>
-	inline bool operator>(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return __y < __x; }
-	template <class _Iter1>
-	inline bool operator>=(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return !(__x < __y); }
-	template <class _Iter1>
-	inline bool operator<=(const vectorIt<_Iter1>& __x, const vectorIt<_Iter1>& __y) { return !(__y < __x); }
+	inline bool operator<(const vectorIt<T>& __x, const vectorIt<T>& __y) { return __x.base() < __y.base(); }
+	template <class T>
+	inline bool operator>(const vectorIt<T>& __x, const vectorIt<T>& __y) { return __y < __x; }
+	template <class T>
+	inline bool operator>=(const vectorIt<T>& __x, const vectorIt<T>& __y) { return !(__x < __y); }
+	template <class T>
+	inline bool operator<=(const vectorIt<T>& __x, const vectorIt<T>& __y) { return !(__y < __x); }
 }
 
 /* vector:
