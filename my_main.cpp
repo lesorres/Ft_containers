@@ -7,7 +7,7 @@
 #include <vector>
 #include <map>
 #else
-#include "vector.hpp"
+#include "Vector.hpp"
 // #include "map.hpp"
 #endif
 
@@ -152,6 +152,7 @@ int main ()
 
 	//*************   end, begin, erase   *************//
 	std::cout << "\n//*************   end, begin, erase   *************//\n";
+	strV5.swap(strV2);
 	ft::vector<std::string>::iterator begin = strV5.begin();
 	ft::vector<std::string>::iterator end = strV5.end();
 	std::cout << (begin != end) << "\n";
