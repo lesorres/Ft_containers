@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/02/03 23:31:39 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/02/27 21:50:23 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include "iterators.hpp"
 #include "Utils.hpp"
+#include "Enable_if.hpp"
+#include "Is_integral.hpp"
+
 
 #if 0
 // for reference:
@@ -27,11 +30,11 @@ namespace ft
 	{
 		// allocator_traits wasn't used because it is implemented only in C++11
 		public:
-			typedef					Allocator							allocator_type; //
+			typedef					Allocator							allocator_type;
 			/* Тип значения аллокатора определяет тип того объекта, под хранения которого выделяется память.
 			Если данным типом является T, то вызов функции-члена allocate(n) позволяет сформировать запрос на
-			 выделение пространства в машинной памяти для хранения n объектов типа T
-			https://ru.wikipedia.org/wiki/Аллокатор*/
+			выделение пространства в машинной памяти для хранения n объектов типа T
+			https://ru.wikipedia.org/wiki/Аллокатор */
 			typedef typename		allocator_type::size_type			size_type;
 
 			typedef					T										value_type;
@@ -40,7 +43,7 @@ namespace ft
 			typedef typename		allocator_type::difference_type			difference_type; // std::ptrdiff_t is the signed integer type of the result of subtracting two pointers.
 			typedef typename		allocator_type::pointer					pointer;
 			typedef typename		allocator_type::const_pointer			const_pointer;
-			typedef					ft::vectorIt<value_type>				iterator;
+			typedef typename		ft::vectorIt<value_type>				iterator;
 			typedef	typename		ft::vectorIt<const value_type>			const_iterator;
 			// typedef	typename		ft::reverse_vectorIt<iterator>			reverse_iterator;
 			// typedef	typename		ft::reverse_vectorIt<const_iterator>	const_reverse_iterator;
@@ -52,73 +55,77 @@ namespace ft
 			// typedef typename		ft::reverse_iterator<const_iterator>	const_reverse_iterator;
 
 		private:
-			pointer														_begin; //buffer
+			pointer														_begin;
 			size_type													_size;
 			size_type													_capacity;
 			allocator_type												_alloc;
 
 		public:
-			//MEMBER FUNCTIONS
-			// explicit vector (const allocator_type& alloc = allocator_type())				// default constructor
-			// 				: _begin(NULL), _end(NULL), _cap_end(NULL), _alloc(alloc);
-			// explicit vector (size_type n, const const_reference val = value_type(),		// fill constructor
-			// 				const allocator_type& alloc = allocator_type());
-			// template <class InputIt>														// range constructor
-			// vector (InputIt first, InputIt last,
-			// 				const allocator_type& alloc = allocator_type());
-			// vector (const vector& x);													// copy constructor
-			// virtual ~vector();															// destructor
-			// vector& operator= (const vector& x);											// copy assignment operator
+			/*
+			MEMBER FUNCTIONS
+			explicit vector (const allocator_type& alloc = allocator_type())				// default constructor
+							: _begin(NULL), _end(NULL), _cap_end(NULL), _alloc(alloc);
+			explicit vector (size_type n, const const_reference val = value_type(),		// fill constructor
+							const allocator_type& alloc = allocator_type());
+			template <class InputIt>														// range constructor
+			vector (InputIt first, InputIt last,
+							const allocator_type& alloc = allocator_type());
+			vector (const vector& x);													// copy constructor
+			virtual ~vector();															// destructor
+			vector& operator= (const vector& x);											// copy assignment operator
 
-			// //ITERATORS
-			// iterator					begin()  {return (_begin);};
-			// const_iterator			begin() const;
-			// iterator					end();
-			// const_iterator			end() const;
-			// reverse_iterator			rbegin();
-			// const_reverse_iterator	rbegin() const;
-			// reverse_iterator			rend();
-			// const_reverse_iterator	rend() const;
+			ITERATORS
+			_DONE	iterator			begin();
+			OK_DONE	const_iterator		begin() const;
+			_DONE	iterator			end();
+			_DONE	const_iterator		end() const;
+					reverse_iterator		rbegin();
+					const_reverse_iterator	rbegin() const;
+					reverse_iterator		rend();
+					const_reverse_iterator	rend() const;
 
-			// //CAPACITY
-			// size_type				size() const;
-			// size_type				max_size() const;
-			// void						resize (size_type n, value_type val = value_type());
-			// size_type				capacity() const;
-			// bool						empty() const;
-			// void						reserve (size_type n);
+			CAPACITY
+			DONE	size_type			size() const;
+			OK_DONE	size_type			max_size() const;
+			DONE	void				resize (size_type n, value_type val = value_type());
+			DONE	size_type			capacity() const;
+			DONE	bool				empty() const;
+			OK_DONE	void				reserve (size_type n);
 
-			// //ELEMENT ACCESS
-			// reference				operator[] (size_type n);
-			// const_reference			operator[] (size_type n) const;
-			// reference				at (size_type n);
-			// const_reference			at (size_type n) const;
-			// reference				front();
-			// const_reference			front() const;
-			// reference				ack();
-			// const_reference			back() const;
+			ELEMENT ACCESS
+			DONE	reference			operator[] (size_type n);
+			DONE	const_reference		operator[] (size_type n) const;
+			DONE	reference			at (size_type n);
+			DONE	const_reference		at (size_type n) const;
+			DONE	reference			front();
+			DONE	const_reference		front() const	
+			DONE	reference			back();
+			DONE	const_reference		back() const;
+			OK_DONE pointer				data();
+			OK_DONE pointer				data() const;
 
-			// //MODIFIERS
-			// template <class InputIterator>
-			// void						assign (InputIterator first, InputIterator last);
-			// void						assign (size_type n, const const_reference val);
-			// void						push_back (const const_reference val);
-			// void						pop_back();
-			// iterator					insert (iterator position, const const_reference val);
-			// void						insert (iterator position, size_type n, const const_reference val);
-			// template <class Iterator>
-			// void						insert (iterator position, InputIterator first, InputIterator last);
-			// iterator					erase (iterator position);
-			// iterator					erase (iterator first, iterator last);
-			// void						swap (vector& x);
-			// void						clear();
-			// allocator_type			get_allocator() const;
+			MODIFIERS
+					template <class InputIterator>
+					void				assign (InputIterator first, InputIterator last);
+			DONE 	void				assign (size_type n, const const_reference val);
+			OK_DONE void				push_back (const const_reference val);
+			_DONE 	void				pop_back();
+					iterator			insert (iterator position, const const_reference val);
+					void				insert (iterator position, size_type n, const const_reference val);
+					template <class Iterator>
+					void				insert (iterator position, InputIterator first, InputIterator last);
+			DONE 	iterator			erase (iterator position);
+					iterator			erase (iterator first, iterator last);
+			DONE	void				swap (vector& x);
+			OK_DONE	void				clear();
+					allocator_type		get_allocator() const;
+			*/
 
 			//MEMBER FUNCTIONS
 			explicit vector (const allocator_type& alloc = allocator_type())			// default constructor
 							: _begin(NULL), _size(0), _capacity(0), _alloc(alloc) {};
 
-			explicit vector (size_type n, const const_reference val = value_type(),		// fill constructor
+			explicit vector (size_type n, const_reference val = value_type(),			// fill constructor
 							const allocator_type& alloc = allocator_type())
 			{
 				if (n < 0)
@@ -130,11 +137,13 @@ namespace ft
 					_begin[i] = val;
 			};
 
-			template <class InputIt>
-			vector (InputIt first, InputIt last,								// range constructor
-							const allocator_type& alloc = allocator_type())
+			template <class InputIt>													// range constructor
+			vector (InputIt first, InputIt last, const allocator_type& alloc = allocator_type(),
+					typename ft::enable_if<!ft::is_integral<InputIt>::value, void>::type* = nullptr)
+					: _size(0), _capacity(0), _alloc (alloc)
 			{
-
+				_begin = _alloc.allocate(_capacity);
+				assign(first, last);
 			};
 
 			vector (const vector& x)													// copy constructor
@@ -171,20 +180,21 @@ namespace ft
 			size_type				capacity() const				{ return (_capacity); };
 			size_type				max_size() const				{ return (_alloc.max_size()); };;
 			bool					empty() const					{ return (_size == 0); };;
-			void					resize (size_type new_size, value_type val = value_type())
+			void					resize (size_type count, value_type val = value_type())
 			{
-				if (new_size > _capacity)
+				if (count > _size)
 				{
-					reserve();
-					
+					if (count > _capacity * 2)
+						reserve(count);
+					else if (count > _capacity)
+						reserve(_capacity * 2);
+					while (_size != count)
+						push_back(val);
 				}
-				if (new_size > _size)
+				else if (count < _size)
 				{
-					
-				}
-				else
-				{
-
+					while (_size != count)
+						pop_back();
 				}
 			}
 			void					reserve (size_type new_cap)
@@ -226,15 +236,33 @@ namespace ft
 			const_pointer			data() const					{ return (_begin); };
 
 			//MODIFIERS
-			template <class InputIterator>
-			void					assign (InputIterator first, InputIterator last)
-			{
-
-			};
 			void					assign (size_type n, const const_reference val)
 			{
-
+				if (n < 0)
+					throw std::length_error("vector");
+				clear();
+				std::cout << "_size" << _size << "\n";
+				if (n > _capacity)
+					reserve(n);
+				while (_size != n)
+					push_back(val);
 			};
+
+			template <class InputIterator>
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+			assign (InputIterator first, InputIterator last)
+			{
+				int range = last - first;
+				if (range < 0)
+					throw std::length_error("vector");
+				clear();
+				reserve(range);
+				for (; first != last; ++first)
+				{
+					this->push_back(*first);
+				}
+			};
+
 			void					push_back (const const_reference val)
 			{
 				if (_capacity == 0)
@@ -277,7 +305,7 @@ namespace ft
 
 			void					clear()
 			{
-				for (size_type i = 0; i < _size; ++i)
+				for (size_type i = 0; i < _size; ++i)	
 					_alloc.destroy(_begin + i);
 				_size = 0;
 			};
