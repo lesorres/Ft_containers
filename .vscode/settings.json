@@ -72,6 +72,7 @@
 		"__cxx_version": "cpp",
 		"__functional_03": "cpp",
 		"set": "cpp",
-		"csignal": "cpp"
+		"csignal": "cpp",
+		"*.ipp": "cpp"
 	}
 }

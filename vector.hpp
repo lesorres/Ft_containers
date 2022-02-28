@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/02/27 21:50:23 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/02/28 22:56:53 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ namespace ft
 			size_type													_size;
 			size_type													_capacity;
 			allocator_type												_alloc;
+
+			template <class It>
+			difference_type distance(It first, It second)
+			{
+				difference_type i = 0;
+				while(first < second)
+				{
+					first++;
+					i++;
+				}
+				return i;
+			}
 
 		public:
 			/*
@@ -241,7 +253,6 @@ namespace ft
 				if (n < 0)
 					throw std::length_error("vector");
 				clear();
-				std::cout << "_size" << _size << "\n";
 				if (n > _capacity)
 					reserve(n);
 				while (_size != n)
@@ -250,13 +261,13 @@ namespace ft
 
 			template <class InputIterator>
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
-			assign (InputIterator first, InputIterator last)
+									assign (InputIterator first, InputIterator last)
 			{
-				int range = last - first;
-				if (range < 0)
+				int diff = distance(first, last);
+				if (diff < 0)
 					throw std::length_error("vector");
 				clear();
-				reserve(range);
+				reserve(diff);
 				for (; first != last; ++first)
 				{
 					this->push_back(*first);
@@ -278,21 +289,43 @@ namespace ft
 					_alloc.destroy(_begin + _size - 1);
 				_size--;
 			};
-			iterator					insert (iterator position, const_reference val) {};
-			void						insert (iterator position, size_type n, const_reference val) {};
-			template <class InputIterator>
-			void						insert (iterator position, InputIterator first, InputIterator last) {};
-			iterator					erase (iterator position)
+			iterator				insert (iterator position, const_reference val)
 			{
-				_alloc.destroy(position);
+
+			};
+			void					insert (iterator position, size_type n, const_reference val)
+			{
+
+			};
+			template <class InputIterator>
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
+									insert (iterator position, InputIterator first, InputIterator last)
+			{
+				
+			};
+			iterator				erase (iterator position)
+			{
+				_alloc.destroy(position.base());
 				iterator tmp = position;
 				for (;tmp != end(); ++tmp)
 					*tmp = *(tmp + 1);
-				_size++;
+				_size--;
 				return position;
 			};
-			iterator					erase (iterator first, iterator last);
-			void						swap (vector& x)
+			iterator				erase (iterator first, iterator last)
+			{
+				if (first == last)
+					return (last);
+				for (iterator i = first; i <= last; ++i)
+					_alloc.destroy(i.base());
+				difference_type diff = last - first;
+				iterator tmp = last;
+				for (;tmp != end(); ++tmp)
+					*(tmp - diff) = *tmp;
+				_size -= diff;
+				return (tmp - diff);
+			};
+			void					swap (vector& x)
 			{
 				if (this != &x)
 				{
