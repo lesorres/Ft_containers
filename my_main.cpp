@@ -32,134 +32,134 @@ std::ostream& operator<<(std::ostream& s, const ft::vector<T>& v)
 
 int main ()
 {
-	// // std::vector<int> intV(10, 5);
-	// // std::vector<std::string> intS(10, "string");
-	// // std::vector<int> intV;
-	// // std::vector<char> intC;
-	// // std::vector<std::string> intS;
+	// std::vector<int> intV(10, 5);
+	// std::vector<std::string> intS(10, "string");
+	// std::vector<int> intV;
+	// std::vector<char> intC;
+	// std::vector<std::string> intS;
 
-	// // std::cout << intV.max_size() << "\n"; //4611686018427387903
-	// // std::cout << intC.max_size() << "\n"; //9223372036854775807
-	// // std::cout << intS.max_size() << "\n"; // 768614336404564650
+	// std::cout << intV.max_size() << "\n"; //4611686018427387903
+	// std::cout << intC.max_size() << "\n"; //9223372036854775807
+	// std::cout << intS.max_size() << "\n"; // 768614336404564650
 
-	// // int a = atoi("some tring");
-	// // int b = atoi("565656");
-	// // std::cout << a << "\n";
-	// // std::cout << b << "\n";
+	// int a = atoi("some tring");
+	// int b = atoi("565656");
+	// std::cout << a << "\n";
+	// std::cout << b << "\n";
 
-	// //____________________SWAP_BEGIN____________________
-	// // std::vector<int> foo (3,100);   // three ints with a value of 100
-	// // std::vector<int> bar (5,200);   // five ints with a value of 200
+	//____________________SWAP_BEGIN____________________
+	// std::vector<int> foo (3,100);   // three ints with a value of 100
+	// std::vector<int> bar (5,200);   // five ints with a value of 200
 
-	// // std::cout << foo.capacity() << "\n";
-	// // std::cout << bar.capacity() << "\n";
-	// // std::cout << foo.size() << "\n";
-	// // std::cout << bar.size() << "\n";
+	// std::cout << foo.capacity() << "\n";
+	// std::cout << bar.capacity() << "\n";
+	// std::cout << foo.size() << "\n";
+	// std::cout << bar.size() << "\n";
 
-	// // foo.swap(bar);
+	// foo.swap(bar);
 
-	// // std::cout << "foo contains:";
-	// // for (unsigned i=0; i<foo.size(); i++)
-	// // 	std::cout << ' ' << foo[i];
-	// // std::cout << '\n';
+	// std::cout << "foo contains:";
+	// for (unsigned i=0; i<foo.size(); i++)
+	// 	std::cout << ' ' << foo[i];
+	// std::cout << '\n';
 
-	// // std::cout << "bar contains:";
-	// // for (unsigned i=0; i<bar.size(); i++)
-	// // 	std::cout << ' ' << bar[i];
-	// // std::cout << '\n';
+	// std::cout << "bar contains:";
+	// for (unsigned i=0; i<bar.size(); i++)
+	// 	std::cout << ' ' << bar[i];
+	// std::cout << '\n';
 
-	// // std::cout << foo.capacity() << "\n";
-	// // std::cout << bar.capacity() << "\n";
-	// // std::cout << foo.size() << "\n";
-	// // std::cout << bar.size() << "\n";
-	// //____________________SWAP_END____________________
+	// std::cout << foo.capacity() << "\n";
+	// std::cout << bar.capacity() << "\n";
+	// std::cout << foo.size() << "\n";
+	// std::cout << bar.size() << "\n";
+	//____________________SWAP_END____________________
 
-	// // std::vector<int>::iterator v;
-	// // // std::map<int, int>::iterator v;
-	// // const int i = 3;
-	// // int const * ptr = &i;
+	// std::vector<int>::iterator v;
+	// // std::map<int, int>::iterator v;
+	// const int i = 3;
+	// int const * ptr = &i;
 
-	// // ft::vector<int> myVect;
+	// ft::vector<int> myVect;
 
 
 
-	// //*************   fill constructor test   *************//
-	// // ft::vector<std::string> strV1 (3, "hi");
-	// // ft::vector<std::string> strV2 (0, "bla");
-	// // std::vector<std::string> strV3 (-3, "hi"); //terminating with uncaught exception of type std::length_error: vector
-	// //*************   fill constructor test   *************//
-
-	// #if STD
-	// //*************   [] operator test   *************//
-	// // std::cout << "strV1 " << strV1 << "\n";
-	// // std::cout << "strV1 " << strV2 << "\n";
-	// // std::cout << "strV1[1] " << strV2.at(1) << "\n";
-	// // std::cout << "strV1[7] " << strV2.at(7) << "\n"; //terminating with uncaught exception of type std::out_of_range: vector
-	// //*************   [] operator test   *************//
-
-	// //*************   assignment operator test   *************//
+	//*************   fill constructor test   *************//
 	// ft::vector<std::string> strV1 (3, "hi");
-	// ft::vector<std::string> strV2 (14, "bla");
-	// ft::vector<std::string> strV3;
-	// ft::vector<std::string> strV4;
-	// for (int i = 0 ; i < 10 ; ++i)
-	// 	strV4.push_back("kkk");
-	// std::cout << "strV1 cap: " << strV1.capacity() << "	strV1 size: " << strV1.size() << "\n";
-	// std::cout << "strV2 cap: " << strV2.capacity() << "	strV2 size: " << strV2.size() << "\n";
-	// std::cout << "strV3 cap: " << strV3.capacity() << "	strV3 size: " << strV3.size() << "\n";
-	// std::cout << "strV4 cap: " << strV4.capacity() << "	strV4 size: " << strV4.size() << "\n";
+	// ft::vector<std::string> strV2 (0, "bla");
+	// std::vector<std::string> strV3 (-3, "hi"); //terminating with uncaught exception of type std::length_error: vector
+	//*************   fill constructor test   *************//
 
-	// strV4 = strV2;
-	// std::cout << "\nafter strV4 = strV2\n\n";
-	// std::cout << "strV1 cap: " << strV1.capacity() << "	strV1 size: " << strV1.size() << "\n";
-	// std::cout << "strV2 cap: " << strV2.capacity() << "	strV2 size: " << strV2.size() << "\n";
-	// std::cout << "strV3 cap: " << strV3.capacity() << "	strV3 size: " << strV3.size() << "\n";
-	// std::cout << "strV4 cap: " << strV4.capacity() << "	strV4 size: " << strV4.size() << "\n";
-	// //*************   assignment operator test   *************//
+	#if STD
+	//*************   [] operator test   *************//
+	// std::cout << "strV1 " << strV1 << "\n";
+	// std::cout << "strV1 " << strV2 << "\n";
+	// std::cout << "strV1[1] " << strV2.at(1) << "\n";
+	// std::cout << "strV1[7] " << strV2.at(7) << "\n"; //terminating with uncaught exception of type std::out_of_range: vector
+	//*************   [] operator test   *************//
 
-	// #else
-	// ft::vector<std::string> strV1 (3, "hi");
-	// ft::vector<std::string> strV2 (14, "bla");
+	//*************   assignment operator test   *************//
+	ft::vector<std::string> strV1 (3, "hi");
+	ft::vector<std::string> strV2 (14, "bla");
+	ft::vector<std::string> strV3;
+	ft::vector<std::string> strV4;
+	for (int i = 0 ; i < 10 ; ++i)
+		strV4.push_back("kkk");
+	std::cout << "strV1 cap: " << strV1.capacity() << "	strV1 size: " << strV1.size() << "\n";
+	std::cout << "strV2 cap: " << strV2.capacity() << "	strV2 size: " << strV2.size() << "\n";
+	std::cout << "strV3 cap: " << strV3.capacity() << "	strV3 size: " << strV3.size() << "\n";
+	std::cout << "strV4 cap: " << strV4.capacity() << "	strV4 size: " << strV4.size() << "\n";
+
+	strV4 = strV2;
+	std::cout << "\nafter strV4 = strV2\n\n";
+	std::cout << "strV1 cap: " << strV1.capacity() << "	strV1 size: " << strV1.size() << "\n";
+	std::cout << "strV2 cap: " << strV2.capacity() << "	strV2 size: " << strV2.size() << "\n";
+	std::cout << "strV3 cap: " << strV3.capacity() << "	strV3 size: " << strV3.size() << "\n";
+	std::cout << "strV4 cap: " << strV4.capacity() << "	strV4 size: " << strV4.size() << "\n";
+	//*************   assignment operator test   *************//
+
+	#else
+	ft::vector<std::string> strV1 (3, "hi");
+	ft::vector<std::string> strV2 (14, "bla");
 	
-	// // for (size_t i = 0; i < strV1._size; ++i)
-	// // 	 std::cout << "strV1 " << strV1[i] << "\n";
-	// // for (size_t i = 0; i < strV2._size; ++i)
-	// // 	 std::cout << "strV1 " << strV2[i] << "\n";
-	// // // std::cout << "strV1 " << strV3 << "\n";
-	// std::cout << "strV1[1] " << strV2.at(1) << "\n"; //same as std::vector
-	// std::cout << "strV1[7] " << strV2.at(7) << "\n"; //same as std::vector
-	// #endif
+	// for (size_t i = 0; i < strV1._size; ++i)
+	// 	 std::cout << "strV1 " << strV1[i] << "\n";
+	// for (size_t i = 0; i < strV2._size; ++i)
+	// 	 std::cout << "strV1 " << strV2[i] << "\n";
+	// // std::cout << "strV1 " << strV3 << "\n";
+	std::cout << "strV1[1] " << strV2.at(1) << "\n"; //same as std::vector
+	std::cout << "strV1[7] " << strV2.at(7) << "\n"; //same as std::vector
+	#endif
 
-	// //*************   max_size   *************//
-	// ft::vector<std::string> strV5 (3, "hi");
-	// ft::vector<std::string> strV6 (14, "bla");
-	// // ft::vector<std::string> strV7 (strV6.begin(), strV6.end());
+	//*************   max_size   *************//
+	ft::vector<std::string> strV5 (3, "hi");
+	ft::vector<std::string> strV6 (14, "bla");
+	// ft::vector<std::string> strV7 (strV6.begin(), strV6.end());
 	
-	// std::cout << strV5.max_size() << "\n";
-	// std::cout << strV6.max_size() << "\n";
-	// // std::cout << strV7.max_size() << "\n";
-	// //*************   max_size   *************//
+	std::cout << strV5.max_size() << "\n";
+	std::cout << strV6.max_size() << "\n";
+	// std::cout << strV7.max_size() << "\n";
+	//*************   max_size   *************//
 
-	// //*************   reserve   *************//
-	// // strV5.reserve(768614336404564651);
-	// //*************   reserve   *************//
+	//*************   reserve   *************//
+	// strV5.reserve(768614336404564651);
+	//*************   reserve   *************//
 
-	// //*************   iterators   *************//
-	// ft::vector<int>::iterator strV5It;
-	// ft::vector<int>::iterator strV6It;
-	// ft::vector<int>::iterator strV7It (strV5It);
-	// //*************   iterators   *************//
+	//*************   iterators   *************//
+	ft::vector<int>::iterator strV5It;
+	ft::vector<int>::iterator strV6It;
+	ft::vector<int>::iterator strV7It (strV5It);
+	//*************   iterators   *************//
 	
 
-	// //*************   end, begin, erase   *************//
-	// std::cout << "\n//*************   end, begin, erase   *************//\n";
-	// strV5.swap(strV2);
-	// ft::vector<std::string>::iterator begin = strV5.begin();
-	// ft::vector<std::string>::iterator end = strV5.end();
-	// std::cout << (begin != end) << "\n";
-	// for (; begin != end; ++begin)
-	// 	std::cout << *begin << "\n";
-	// //*************   end, begin, erase   *************//
+	//*************   end, begin, erase   *************//
+	std::cout << "\n//*************   end, begin, erase   *************//\n";
+	strV5.swap(strV2);
+	ft::vector<std::string>::iterator begin = strV5.begin();
+	ft::vector<std::string>::iterator end = strV5.end();
+	std::cout << (begin != end) << "\n";
+	for (; begin != end; ++begin)
+		std::cout << *begin << "\n";
+	//*************   end, begin, erase   *************//
 
 
 	ft::vector<int> vector;
@@ -173,6 +173,7 @@ int main ()
     vector1.assign(1000, 1);
     v1.push_back(*(vector1.end() - 1));
     v1.push_back(*(vector1.end() - 2));
+
 
 
 	return(0);

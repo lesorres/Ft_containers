@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/02/28 22:56:53 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/03/20 21:04:19 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ namespace ft
 			{
 				if (n < 0)
 					throw std::length_error ("vector");
+				_alloc = alloc;
 				_begin = _alloc.allocate(n);
 				_size = n;
 				_capacity = n;
@@ -174,7 +175,16 @@ namespace ft
 
 			vector& operator= (const vector& x)
 			{
-
+				if(this == &x)
+					return *this;
+				clear();
+				_alloc.deallocate(_begin, _capacity);
+				_size = x._size;
+				_capacity = x._capacity;
+				_begin = _alloc.allocate(_capacity);
+				for (size_type i = 0; i < _size; ++i)
+					_begin[i] = x._begin[i];
+				return *this;
 			};
 
 			//ITERATORS
@@ -209,6 +219,7 @@ namespace ft
 						pop_back();
 				}
 			}
+
 			void					reserve (size_type new_cap)
 			{
 				// обработка std::length_error if new_cap > max_size(). не нужна, она есть в аллокаторе
@@ -232,12 +243,14 @@ namespace ft
 					throw std::out_of_range ("vector");
 				return (_begin[n]);
 			};
+
 			const_reference			at (size_type n) const
 			{
 				if (n >= _size)
 					throw std::out_of_range ("vector");
 				return (_begin[n]);
 			};
+
 			reference				operator[] (size_type n)		{ return (_begin[n]); };	//No bounds checking
 			const_reference			operator[] (size_type n) const	{ return (_begin[n]); };
 			reference				front()							{ return (*_begin); };
@@ -283,16 +296,25 @@ namespace ft
 				_alloc.construct(_begin + _size, val); // The new element is initialized as a copy of value https://en.cppreference.com/w/cpp/container/vector/push_back
 				_size++;
 			};
+
 			void					pop_back()
 			{
 				if (_size)
 					_alloc.destroy(_begin + _size - 1);
 				_size--;
 			};
+
 			iterator				insert (iterator position, const_reference val)
 			{
-
+				size_type i = _size;
+				resize(_size + 1, 0);
+				difference_type border = distance(begin(), position);
+				for (; i > border; --i)
+					_begin[i + 1] = _begin[i];
+				_begin[border + 1] = val;
+				return(position + 1);
 			};
+
 			void					insert (iterator position, size_type n, const_reference val)
 			{
 
@@ -303,28 +325,30 @@ namespace ft
 			{
 				
 			};
+			
 			iterator				erase (iterator position)
 			{
 				_alloc.destroy(position.base());
-				iterator tmp = position;
-				for (;tmp != end(); ++tmp)
-					*tmp = *(tmp + 1);
+				difference_type i = distance(begin(), position);
+				for (; i < _size; ++i)
+					_begin[i] = _begin[i + 1];
 				_size--;
 				return position;
 			};
+
 			iterator				erase (iterator first, iterator last)
 			{
 				if (first == last)
 					return (last);
-				for (iterator i = first; i <= last; ++i)
-					_alloc.destroy(i.base());
-				difference_type diff = last - first;
+				difference_type diff = distance(first, last);
+				difference_type start = distance(begin(), first);
 				iterator tmp = last;
-				for (;tmp != end(); ++tmp)
-					*(tmp - diff) = *tmp;
 				_size -= diff;
-				return (tmp - diff);
+				for (size_t i = start; i < _size; ++i)
+					_begin[i] = _begin[i + diff];
+				return(iterator(_begin + start));
 			};
+
 			void					swap (vector& x)
 			{
 				if (this != &x)
@@ -388,4 +412,13 @@ namespace ft
 
 	template <class T, class Alloc>
 	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+}
+
+namespace std
+{
+	template <class T, class Alloc>
+	void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
+	{
+		x.swap(y);
+	};
 }
