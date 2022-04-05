@@ -197,6 +197,12 @@ int main()
 	ft::vector<std::string>::iterator i_for_it_1 = i_for_it_0;
 	// ft::vector<std::string>::iterator i_for_it_2(s_for_it0);
 
+	ft::vector<std::string>::iterator r = v_for_it_0.begin();
+	ft::vector<std::string>::const_iterator u = r;
+
+	std::cout << *r << "\n";
+	std::cout << *u << "\n";
+
 //*************   constructor   *************//
 	std::cout << "\n----------------Constructor test----------------\n";
 	// 	std::vector<int> v2;
@@ -269,15 +275,66 @@ int main()
 
 //*************        insert       *************//
 
-ft::vector<std::string> v_for_ins_0;
-// for (int i = 0; i < 4; i++)
-// 	v_for_ins_0.push_back("a");
-v_for_ins_0.push_back("a");
-v_for_ins_0.push_back("b");
-v_for_ins_0.push_back("c");
-v_for_ins_0.push_back("d");
-print_vector(v_for_ins_0);
-v_for_ins_0.insert(v_for_ins_0.begin() + 1, "v");
-print_vector(v_for_ins_0);
+	// // 1
+	// ft::vector<std::string> v_for_ins_0;
+	// for (int i = 0; i < 4; i++)
+	// 	v_for_ins_0.push_back("a");
+	// v_for_ins_0.push_back("a");
+	// v_for_ins_0.push_back("b");
+	// v_for_ins_0.push_back("c");
+	// v_for_ins_0.push_back("d");
+
+	// std::cout << "here\n";
+
+	// std::cout << "vector size: " << v_for_ins_0.size() << "\n";
+	// std::cout << "vector cpct: " << v_for_ins_0.capacity() << "\n";
+	// print_vector(v_for_ins_0);
+
+	// v_for_ins_0.insert(v_for_ins_0.begin() + 1, "v");
+
+	// std::cout << "vector size: " << v_for_ins_0.size() << "\n";
+	// std::cout << "vector cpct: " << v_for_ins_0.capacity() << "\n";
+	// print_vector(v_for_ins_0);
+
+	// // 2
+	// ft::vector<std::string> v_for_ins_1 (99, "k");
+	// for (int i = 0; i < 90; i++)
+	// 	v_for_ins_1.pop_back();
+
+	// std::cout << "vector size: " << v_for_ins_1.size() << "\n";
+	// std::cout << "vector cpct: " << v_for_ins_1.capacity() << "\n";
+	// print_vector(v_for_ins_1);
+
+	// v_for_ins_1.insert(v_for_ins_1.end(), "v");
+
+	// std::cout << "vector size: " << v_for_ins_1.size() << "\n";
+	// std::cout << "vector cpct: " << v_for_ins_1.capacity() << "\n";
+	// print_vector(v_for_ins_1);
+
+	// // 3
+	// ft::vector<std::string> v_for_ins_2 (5, "k");
+
+	// std::cout << "vector size: " << v_for_ins_2.size() << "\n";
+	// std::cout << "vector cpct: " << v_for_ins_2.capacity() << "\n";
+	// print_vector(v_for_ins_2);
+
+	// v_for_ins_2.insert(v_for_ins_2.begin(), 11, "v");
+
+	// std::cout << "vector size: " << v_for_ins_2.size() << "\n";
+	// std::cout << "vector cpct: " << v_for_ins_2.capacity() << "\n";
+	// print_vector(v_for_ins_2);
+
+
+	ft::vector<int> vector;
+	ft::vector<int> v;
+	vector.assign(1000, 1);
+	g_start2 = timer();
+	std::cout << "here\n";
+	vector.insert(vector.end() - 50, 4200 * _ratio , 2);
+	std::cout << "here2\n";
+	g_end2 = timer();
+	v.push_back(vector[2121]);
+	v.push_back(vector.size());
+	v.push_back(vector.capacity());
 
 }

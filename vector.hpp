@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/03/20 21:04:19 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/05 23:55:02 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,8 +317,25 @@ namespace ft
 
 			void					insert (iterator position, size_type n, const_reference val)
 			{
+				size_type new_size = _size + n;
+				size_type indx = distance(begin(), position);
 
+				if (n < 0)
+					throw std::length_error("vector");
+				else if (n > 0)
+				{
+					if (n >= _capacity)
+						reserve(_capacity + n);
+					else if (new_size > _capacity)
+						reserve(_capacity * 2);
+					for (size_type i = indx ; i < _size ; ++i)
+						_begin[i + n] = _begin[i];
+					for (size_type i = indx ; i < indx + n ; ++i)
+						_begin[i] = val;
+					_size = new_size;
+				}
 			};
+
 			template <class InputIterator>
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
 									insert (iterator position, InputIterator first, InputIterator last)
