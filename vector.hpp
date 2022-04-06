@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/05 23:55:02 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/06 23:57:22 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ namespace ft
 			allocator_type												_alloc;
 
 			template <class It>
-			difference_type distance(It first, It second)
+			difference_type distance(It first, It second) !!! ПРОВЕРЯТЬ РАСПОЛОЖЕНИЕ first относительно last, в случае если first > last возвращать ноль, проверит как это отражается на функциях, которые вызывают dofference 
 			{
 				difference_type i = 0;
 				while(first < second)
@@ -306,13 +306,9 @@ namespace ft
 
 			iterator				insert (iterator position, const_reference val)
 			{
-				size_type i = _size;
-				resize(_size + 1, 0);
-				difference_type border = distance(begin(), position);
-				for (; i > border; --i)
-					_begin[i + 1] = _begin[i];
-				_begin[border + 1] = val;
-				return(position + 1);
+				size_type indx = distance(begin(), position); // If the new size() is greater than capacity(), all iterators and references are invalidated https://en.cppreference.com/w/cpp/container/vector/insert
+				insert(position, 1, val);
+				return (iterator(_begin + indx));
 			};
 
 			void					insert (iterator position, size_type n, const_reference val)
@@ -328,9 +324,9 @@ namespace ft
 						reserve(_capacity + n);
 					else if (new_size > _capacity)
 						reserve(_capacity * 2);
-					for (size_type i = indx ; i < _size ; ++i)
+					for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
 						_begin[i + n] = _begin[i];
-					for (size_type i = indx ; i < indx + n ; ++i)
+					for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
 						_begin[i] = val;
 					_size = new_size;
 				}
@@ -340,9 +336,31 @@ namespace ft
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value, void>::type
 									insert (iterator position, InputIterator first, InputIterator last)
 			{
-				
+				if (first >= last)
+					return;
+				else
+				{
+					size_type n = distance(first, last);
+					size_type new_size = _size + n;
+					size_type indx = distance(begin(), position);
+
+					if (n < 0)
+						throw std::length_error("vector");
+					else if (n > 0)
+					{
+						if (n >= _capacity)
+							reserve(_capacity + n);
+						else if (new_size > _capacity)
+							reserve(_capacity * 2);
+						for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
+							_begin[i + n] = _begin[i];
+						for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
+							_begin[i] = val;
+						_size = new_size;
+					}
+				}
 			};
-			
+
 			iterator				erase (iterator position)
 			{
 				_alloc.destroy(position.base());

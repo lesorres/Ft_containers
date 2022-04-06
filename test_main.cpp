@@ -7,7 +7,7 @@ volatile static time_t g_end1;
 volatile static time_t g_end2;
 int _ratio = 10000;
 
-#define STD 0
+#define STD 1
 
 #if STD
 
@@ -45,6 +45,35 @@ void print_vector(ft::vector<T> v)
 		std::cout << v[i];
 	std::cout << "\n\n";
 }
+
+	class B {
+	public:
+		char *l;
+		int i;
+		B():l(nullptr), i(1) {};
+		B(const int &ex) {
+			this->i = ex;
+			this->l = new char('a');
+		};
+		virtual ~B() {
+			delete this->l;
+			this->l = nullptr;
+		};
+	};
+
+	class A : public B {
+	public:
+		A():B(){};
+		A(const B* ex){
+			this->l = new char(*(ex->l));
+			this->i = ex->i;
+			if (ex->i == -1) throw "n";
+		}
+		~A() {
+			delete this->l;
+			this->l = nullptr;
+		};
+	};
 
 int main()
 {
@@ -274,6 +303,7 @@ int main()
     // v.push_back(vector.capacity());
 
 //*************        insert       *************//
+	std::cout << "\n----------------Insert test----------------\n";
 
 	// // 1
 	// ft::vector<std::string> v_for_ins_0;
@@ -324,17 +354,47 @@ int main()
 	// std::cout << "vector cpct: " << v_for_ins_2.capacity() << "\n";
 	// print_vector(v_for_ins_2);
 
+	// fill
+
+	// ft::vector<int> vector;
+	// ft::vector<int> v;
+	// vector.assign(1000, 1);
+	// g_start2 = timer();
+	// std::cout << "here\n";
+	// vector.insert(vector.end() - 50, 4200 * _ratio , 2);
+	// std::cout << "here2\n";
+	// g_end2 = timer();
+	// v.push_back(vector[2121]);
+	// v.push_back(vector.size());
+	// v.push_back(vector.capacity());
+
+	// value
+
+
 
 	ft::vector<int> vector;
-	ft::vector<int> v;
-	vector.assign(1000, 1);
-	g_start2 = timer();
-	std::cout << "here\n";
-	vector.insert(vector.end() - 50, 4200 * _ratio , 2);
-	std::cout << "here2\n";
-	g_end2 = timer();
-	v.push_back(vector[2121]);
-	v.push_back(vector.size());
-	v.push_back(vector.capacity());
+    ft::vector<int> v;
+    vector.assign(2600 * _ratio, 1);
+    g_start1 = timer();
+    v.push_back(*(vector.insert(vector.end() - 800 * _ratio, 44)));
+    g_end1 = timer();
+    v.push_back(vector.size());
+    v.push_back(vector.capacity());
+    std::unique_ptr<B> k2(new B(3));
+    std::unique_ptr<B> k3(new B(4));
+    std::unique_ptr<B> k4(new B(-1));
+    std::vector<A> vv;
+    std::vector<B*> v1;
 
+    v1.push_back(&(*k2));
+    v1.push_back(&(*k3));
+    v1.push_back(&(*k4));
+    try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
+    catch (...) {
+    	v.push_back(vv.size());
+    	v.push_back(vv.capacity());
+    }
+	print_vector(v);
+	std::cout << "vector cpct: " << v.capacity() << "\n";
+	std::cout << "vector size: " << v.size() << "\n";
 }
