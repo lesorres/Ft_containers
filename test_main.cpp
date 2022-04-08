@@ -7,7 +7,7 @@ volatile static time_t g_end1;
 volatile static time_t g_end2;
 int _ratio = 10000;
 
-#define STD 1
+#define STD 0
 
 #if STD
 
@@ -305,6 +305,8 @@ int main()
 //*************        insert       *************//
 	std::cout << "\n----------------Insert test----------------\n";
 
+	// value
+	
 	// // 1
 	// ft::vector<std::string> v_for_ins_0;
 	// for (int i = 0; i < 4; i++)
@@ -341,6 +343,8 @@ int main()
 	// std::cout << "vector cpct: " << v_for_ins_1.capacity() << "\n";
 	// print_vector(v_for_ins_1);
 
+	// fill
+
 	// // 3
 	// ft::vector<std::string> v_for_ins_2 (5, "k");
 
@@ -354,47 +358,54 @@ int main()
 	// std::cout << "vector cpct: " << v_for_ins_2.capacity() << "\n";
 	// print_vector(v_for_ins_2);
 
-	// fill
 
-	// ft::vector<int> vector;
-	// ft::vector<int> v;
-	// vector.assign(1000, 1);
-	// g_start2 = timer();
-	// std::cout << "here\n";
-	// vector.insert(vector.end() - 50, 4200 * _ratio , 2);
-	// std::cout << "here2\n";
-	// g_end2 = timer();
-	// v.push_back(vector[2121]);
-	// v.push_back(vector.size());
-	// v.push_back(vector.capacity());
+	// range
 
-	// value
+	ft::vector<std::string> v_for_ins_3 (5, "c");
+	ft::vector<std::string> v_for_ins_4 (2, "h");
+
+	std::cout << v_for_ins_3.begin().base() << "\n";
+	// std::cout << v_for_ins_3.insert(v_for_ins_3.begin(), v_for_ins_4.end(), v_for_ins_4.begin()).base();
+	v_for_ins_3.insert(v_for_ins_3.begin(), v_for_ins_4.begin(), v_for_ins_4.end());
+	print_vector(v_for_ins_3);
 
 
-
-	ft::vector<int> vector;
-    ft::vector<int> v;
-    vector.assign(2600 * _ratio, 1);
-    g_start1 = timer();
-    v.push_back(*(vector.insert(vector.end() - 800 * _ratio, 44)));
-    g_end1 = timer();
-    v.push_back(vector.size());
-    v.push_back(vector.capacity());
     std::unique_ptr<B> k2(new B(3));
     std::unique_ptr<B> k3(new B(4));
     std::unique_ptr<B> k4(new B(-1));
-    std::vector<A> vv;
-    std::vector<B*> v1;
+    ft::vector<B*> v1;
 
     v1.push_back(&(*k2));
     v1.push_back(&(*k3));
     v1.push_back(&(*k4));
-    try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
-    catch (...) {
-    	v.push_back(vv.size());
-    	v.push_back(vv.capacity());
-    }
+
+//*************        iterator       *************//
+	std::cout << "\n----------------Iterator----------------\n";
+
+	ft::vector<B*>::iterator ii = v1.begin();
+	std::cout << ii.base() << "\n";
+	std::cout << v1.end().base() << "\n";
+	ii = v1.end();
+	std::cout << ii.base() << "\n";
+
+	ft::vector<int> v;
+	ft::vector<int> vector;
+	v.assign(1, 2);
+    vector.assign(1000, 1);
+    g_start2 = timer();
+    v.push_back(*vector.rbegin());
+    v.push_back(*(vector.rbegin() + 1));
+	v.push_back(*(vector.rbegin() + 2));
+	v.push_back(*(vector.rbegin() + 1000));
+    g_end2 = timer();
+
 	print_vector(v);
-	std::cout << "vector cpct: " << v.capacity() << "\n";
-	std::cout << "vector size: " << v.size() << "\n";
+
+	ft::vector<int>::reverse_iterator o;              // НЕ РАБОТАЕТ
+	ft::vector<int>::const_reverse_iterator o1;
+	ft::vector<int>::iterator o2;
+	ft::vector<int>::const_iterator o13;
+
+
+
 }

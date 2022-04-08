@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/06 23:57:22 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/09 01:18:19 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ namespace ft
 			typedef typename		allocator_type::const_pointer			const_pointer;
 			typedef typename		ft::vectorIt<value_type>				iterator;
 			typedef	typename		ft::vectorIt<const value_type>			const_iterator;
-			// typedef	typename		ft::reverse_vectorIt<iterator>			reverse_iterator;
-			// typedef	typename		ft::reverse_vectorIt<const_iterator>	const_reverse_iterator;
+			typedef	typename		ft::reverse_vectorIt<iterator>			reverse_iterator;
+			typedef	typename		ft::reverse_vectorIt<const_iterator>	const_reverse_iterator;
 
 			// typedef vectorIt<value_type, бла бла > iterotor;
 			// typedef typename		ft::vector_iterator<value_type>			iterator;
@@ -61,7 +61,7 @@ namespace ft
 			allocator_type												_alloc;
 
 			template <class It>
-			difference_type distance(It first, It second) !!! ПРОВЕРЯТЬ РАСПОЛОЖЕНИЕ first относительно last, в случае если first > last возвращать ноль, проверит как это отражается на функциях, которые вызывают dofference 
+			difference_type distance(It first, It second) //!!! ПРОВЕРЯТЬ РАСПОЛОЖЕНИЕ first относительно last, в случае если first > last возвращать ноль, проверит как это отражается на функциях, которые вызывают dofference 
 			{
 				difference_type i = 0;
 				while(first < second)
@@ -192,10 +192,10 @@ namespace ft
 			const_iterator			begin() const					{return const_iterator(_begin);};
 			iterator				end()							{return iterator(_begin + _size);};
 			const_iterator			end() const 					{return const_iterator(_begin + _size);};
-			// reverse_iterator		rbegin()						{return reverse_iterator(_begin);};
-			// const_reverse_iterator	rbegin() const					{return const_reverse_iterator(_begin);};
-			// reverse_iterator		rend()							{return reverse_iterator(_begin + _size);};
-			// const_reverse_iterator	rend() const					{return const_reverse_iterator(_begin + _size);};
+			reverse_iterator		rbegin()						{return reverse_iterator(--this->end());};
+			const_reverse_iterator	rbegin() const					{return const_reverse_iterator(--this->end());};
+			reverse_iterator		rend()							{return reverse_iterator(this->begin());};
+			const_reverse_iterator	rend() const					{return const_reverse_iterator(this->begin());};
 
 			//CAPACITY
 			size_type				size() const					{ return (_size); };
@@ -340,6 +340,7 @@ namespace ft
 					return;
 				else
 				{
+					vector tmp_vector = *this;
 					size_type n = distance(first, last);
 					size_type new_size = _size + n;
 					size_type indx = distance(begin(), position);
@@ -348,14 +349,22 @@ namespace ft
 						throw std::length_error("vector");
 					else if (n > 0)
 					{
-						if (n >= _capacity)
-							reserve(_capacity + n);
-						else if (new_size > _capacity)
-							reserve(_capacity * 2);
-						for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
-							_begin[i + n] = _begin[i];
-						for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
-							_begin[i] = val;
+						try
+						{
+							if (n >= _capacity)
+								tmp_vector.reserve(_capacity + n);
+							else if (new_size > _capacity)
+								tmp_vector.reserve(_capacity * 2);
+							for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
+								tmp_vector._begin[i + n] = tmp_vector._begin[i];
+							for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
+							{
+								tmp_vector._begin[i] = *first;
+								first++;
+							}
+						}
+						catch(...) { throw std::exception(); }
+						*this = tmp_vector;
 						_size = new_size;
 					}
 				}
