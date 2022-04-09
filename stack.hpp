@@ -1,16 +1,16 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include <vector> //ПОМЕНЯТЬ НА СВОЙ!
-#include <stack>
+// #include <vector> //ПОМЕНЯТЬ НА СВОЙ!
+#include "Vector.hpp"
+// #include <stack>
 
 namespace ft
 {
 	// template<class T, class Container = ft::vector<T>>
-	template<class T, class Container = std::vector<T> > 
+	template<class T, class Container = ft::vector<T> > 
 	class stack
 	{
-
 		public:
 			typedef				Container							container_type;
 			typedef typename	container_type::value_type			value_type;
@@ -18,13 +18,15 @@ namespace ft
 			typedef typename	container_type::reference			reference; //возможно не нужны
 			typedef typename	container_type::const_reference		const_reference;
 
-			explicit stack(const Container& cont = Container()) : c(cont) {} // про explicit -> https://ravesli.com/urok-143-konstruktory-preobrazovaniya-klyuchevye-slova-explicit-i-delete/
+			explicit stack(const Container& cont = container_type()) : c(cont) {} // про explicit -> https://ravesli.com/urok-143-konstruktory-preobrazovaniya-klyuchevye-slova-explicit-i-delete/
 			virtual ~stack() {}; //При работе с наследованием ваши деструкторы всегда должны быть виртуальными https://ravesli.com/urok-165-virtualnye-destruktory-i-prisvaivanie/
 
 			stack& operator=( const stack& other )
 			{
+				if (this == &other)
+					return(*this);
 				c = other.c;
-				return(c);
+				return(*this);
 			}
 			//Element access
 			reference top() { return(c.back()); };
@@ -56,10 +58,10 @@ namespace ft
 	bool operator<( const stack<T,Container>& lhs, const stack<T,Container>& rhs ) { return (lhs.Cm(rhs)); };
 
 	template< class T, class Container >
-	bool operator<=( const stack<T,Container>& lhs, const stack<T,Container>& rhs ) { return (!(lhs > rhs)); };
+	bool operator<=( const stack<T,Container>& lhs, const stack<T,Container>& rhs ) { return !(rhs < lhs); };
 
 	template< class T, class Container >
-	bool operator>( const stack<T,Container>& lhs, const stack<T,Container>& rhs ) { return (!lhs.Cm(rhs)); };
+	bool operator>( const stack<T,Container>& lhs, const stack<T,Container>& rhs ) { return (rhs < lhs); };
 
 	template< class T, class Container >
 	bool operator>=( const stack<T,Container>& lhs, const stack<T,Container>& rhs ) { return (!(lhs < rhs)); };

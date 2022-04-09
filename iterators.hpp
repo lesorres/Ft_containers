@@ -1,7 +1,5 @@
-# if 0
-//for reference:
-#include <iterator>
-#endif
+# ifndef ITERATOR_HPP
+# define ITERATOR_HPP
 
 namespace ft 
 {
@@ -234,3 +232,5 @@ namespace ft
 1096 - move_iterator - относительно понятная реализация
 1314 - __wrap_iter - относительно понятная реализация
 */
+
+#endif

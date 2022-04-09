@@ -6,9 +6,12 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/09 01:18:19 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/09 16:50:50 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 #include <iostream>
 #include "iterators.hpp"
@@ -466,3 +469,5 @@ namespace std
 		x.swap(y);
 	};
 }
+
+#endif
