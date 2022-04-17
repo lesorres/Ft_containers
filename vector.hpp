@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/09 16:50:50 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/12 17:00:19 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 #define VECTOR_HPP
 
 #include <iostream>
-#include "iterators.hpp"
+#include "Iterators.hpp"
 #include "Utils.hpp"
 #include "Enable_if.hpp"
 #include "Is_integral.hpp"
-
 
 #if 0
 // for reference:
@@ -51,7 +50,7 @@ namespace ft
 			typedef	typename		ft::reverse_vectorIt<iterator>			reverse_iterator;
 			typedef	typename		ft::reverse_vectorIt<const_iterator>	const_reverse_iterator;
 
-			// typedef vectorIt<value_type, бла бла > iterotor;
+			// typedef vectorIt     <value_type, бла бла > iterotor;
 			// typedef typename		ft::vector_iterator<value_type>			iterator;
 			// typedef typename		ft::vector_iterator<const value_type>	const_iterator;
 			// typedef typename		ft::reverse_iterator<iterator>			reverse_iterator;
