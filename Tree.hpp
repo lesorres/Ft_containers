@@ -6,163 +6,328 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 14:52:16 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/17 22:13:08 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:52:33 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TREE_HPP
 #define TREE_HPP
 
-#define NIL &nil
-
 template <class value_type>
 struct Node
 {
 	public:
-	Node () : is_black(false), left(this), {};
-
-	value_type *pair;
-	struct Node *parent;
-	struct Node *left;
-	struct Node *right;
-
-	bool is_black;
-	// bool nil;
+		Node()
+		{
+			is_black = 1;
+			begin = NULL;
+			left = this;
+			right = this;
+			parent = 0,
+			NIL = 1;
+			pair = new value_type(); 
+		}
+	
+		Node(const value_type& p)
+		{
+			is_black = 1;
+			begin = NULL;
+			left = this;
+			right = this;
+			parent = 0,
+			NIL = 0;
+			pair = new value_type(p); 
+		}
+	
+		~Node()
+		{
+			delete pair;
+		}
+	
+		bool is_black;
+		struct Node *begin;
+		struct Node *left;
+		struct Node *right;
+		struct Node *parent;
+		bool NIL;
+		value_type *pair;
 };
 
 template <class value_type>
 class Tree
 {
-	Node<value_type> *root;
-	Node<value_type> nil;
-	size_t size;
+	public:
+		Node<value_type> *root;
+		Node<value_type> nil;
+		size_t size;
 
-	Tree() 
-	{
-		root = NIL;
-		size = 0;							//???
-		
-		nil->parent = NIL;
-		nil->left = NIL;
-		nil->right = NIL;
-		nil->is_black = 1;
-	}
-	
-	Tree(Tree<value_type> &other)
-	{
-		root = NIL;
+		Tree() : size(0) {
+			nil.left = &nil;
+			nil.right = &nil;
+			nil.begin = &nil;
+			nil.parent = 0;
+			nil.is_black = 1;
+			nil.NIL = true;
+			root = &nil;
+		}
 
-		nil.left = NIL;
-		nil.right = NIL;
-		// nil.begin = NIL;
-		nil.parent = 0;
-		nil.color = 0;						//???
-		// nil.nil = (&other == &other);
-		
-		size = 0;							//???
-	}
+		Tree(Tree<value_type> &other) : size(0) {
+			nil.left = &nil;
+			nil.right = &nil;
+			nil.begin = &nil;
+			nil.parent = 0;
+			nil.is_black = 1;
+			nil.NIL = (&other == &other);
+			root = &nil;
+		}
 
-	Tree& operator=(const Tree<value_type>& other)
-	{
-		if (this == &other)
-			return *this;
-		root = other.root;
-		nil = other.nil;
-		size = other.size;
-		return *this;
-	};
-
-	void left_rotate(Node_<value_type> *x) // стр 346 - Кормен, Алгоритмы
-	{
-		Node<value_type> *y = x->right;
-		x->right = y->left;
-		if (!y->left != nil)
-			y->left->parent = x;
-		if (y != nil) // нужна ли эта проверка, и тогда зачем? можно ли убрать? - в книге ее нет
-			y->parent = x->parent;
-		if (x->parent == nil)
-			root = y;
-		else if (x == x->parent->left)
-			x->parent->left = y;
-		else
-			x->parent->right = y;
-		y->left = x;
-		if (!x->NIL) // нужна ли эта проверка, и тогда зачем? можно ли убрать? - в книге ее нет
-			x->parent = y;
-	}
-	
-	void right_rotate(Node_<value_type> *x) // стр 346 - Кормен, Алгоритмы
-	{
-		Node<value_type> *y = x->left;
-		x->left = y->right;
-		if (!y->right != nil)
-			y->right->parent = x;
-		if (y != nil) // нужна ли эта проверка, и тогда зачем? можно ли убрать? - в книге ее нет
-			y->parent = x->parent;
-		if (x->parent == nil)
-			root = y;
-		else if (x == x->parent->right)
-			x->parent->right = y;
-		else
-			x->parent->left = y;
-		y->right = x;
-		if (!x->NIL) // нужна ли эта проверка, и тогда зачем? можно ли убрать? - в книге ее нет
-			x->parent = y;
-	}
-
-	void insert_fixup(Node_<value_type> *z)
-	{ // стр 349 - Кормен, Алгоритмы
-		while (z != root && z->parent->is_black == 0)			//зачем условие z != root ?
+		Tree& operator=(const Tree<value_type>& other)
 		{
-			if (z->parent == z->parent->parent->left)
+			if (this == &other)
+				return (*this);
+			root = other.root;
+			nil = other.nil;
+			size = other.size;
+			return (*this);
+		};
+
+	// DONE : логика переписана 
+		void left_rotate(Node<value_type> *x)
+		{
+			Node<value_type> *y = x->right;
+			x->right = y->left;
+			if (!y->left->NIL)
+				y->left->parent = x;
+			// if (!y->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
+				y->parent = x->parent;
+			if (!x->parent)
+				root = y;
+			else if (x == x->parent->left)
+				x->parent->left = y;
+			else
+				x->parent->right = y;
+			y->left = x;
+			// if (!x->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
+				x->parent = y;
+		}
+
+	// DONE : логика переписана 
+		void right_rotate(Node<value_type> *x) {
+			Node<value_type> *y = x->left;
+			x->left = y->right;
+			if (!y->right->NIL)
+				y->right->parent = x;
+			// if (!y->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
+				y->parent = x->parent;
+			if (!x->parent)
+				root = y;
+			else if (x == x->parent->right)
+				x->parent->right = y;
+			else
+				x->parent->left = y;
+			y->right = x;
+			// if (!x->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
+				x->parent = y;
+		}
+
+		void insert_fixup(Node<value_type> *z) // стр 349 - Кормен, Алгоритмы
+		{
+			while (z != root && z->parent->is_black == 0)			//зачем условие z != root ? - иначе сега
 			{
-				Node<value_type> *y = z->parent->parent->right;
-				if (y->is_black == 0)
+				if (z->parent == z->parent->parent->left)
 				{
-					z->parent->is_black = 1;
-					y->is_black = 1;
-					z->parent->parent->is_black = 0;
-					z = z->parent->parent;
+					Node<value_type> *y = z->parent->parent->right;
+					if (y->is_black == 0)
+					{
+						z->parent->is_black = 1;
+						y->is_black = 1;
+						z->parent->parent->is_black = 0;
+						z = z->parent->parent;
+					}
+					else
+					{
+						if (z == z->parent->right)
+						{
+							z = z->parent;
+							left_rotate(z);
+						}
+						z->parent->is_black = 1;
+						z->parent->parent->is_black = 0;
+						right_rotate(z->parent->parent);
+					}
 				}
 				else
 				{
-					if (z == z->parent->right)
+					Node<value_type> *y = z->parent->parent->left;
+					if (y->is_black == 0)
 					{
-						z = z->parent;
-						left_rotate(z);
+						z->parent->is_black = 1;
+						y->is_black = 1;
+						z->parent->parent->is_black = 0;
+						z = z->parent->parent;
 					}
-					z->parent->is_black = 1;
-					z->parent->parent->is_black = 0;
-					right_rotate(z->parent->parent);
+					else
+					{
+						if (z == z->parent->left)
+						{
+							z = z->parent;
+							right_rotate(z);
+						}
+						z->parent->is_black = 1;
+						z->parent->parent->is_black = 0;
+						left_rotate(z->parent->parent);
+					}
 				}
+			}
+			root->is_black = 1;
+		}
+
+	// DONE : логика переписана
+		void delete_fixup_for_left_child(Node<value_type> *x)
+		{
+			Node<value_type> *w = x->parent->right;
+			if (w->is_black == 0)
+			{
+				w->is_black = 1;
+				x->parent->is_black = 0;
+				left_rotate (x->parent);
+				w = x->parent->right;
+			}
+			if (w->left->is_black == 1 && w->right->is_black == 1)
+			{
+				w->is_black = 0;
+				x = x->parent;
+			} 
+			else
+			{
+				if (w->right->is_black == 1)
+				{
+					w->left->is_black = 1;
+					w->is_black = 0;
+					right_rotate (w);
+					w = x->parent->right;
+				}
+				w->is_black = x->parent->is_black;
+				x->parent->is_black = 1;
+				w->right->is_black = 1;
+				left_rotate (x->parent);
+				x = root;
+			}
+		}
+
+	// DONE : логика переписана
+		void delete_fixup_for_right_child(Node<value_type> *x)
+		{
+			Node<value_type> *w = x->parent->left;
+			if (w->is_black == 0)
+			{
+				w->is_black = 1;
+				x->parent->is_black = 0;
+				right_rotate (x->parent);
+				w = x->parent->left;
+			}
+			if (w->right->is_black == 1 && w->left->is_black == 1)
+			{
+				w->is_black = 0;
+				x = x->parent;
 			}
 			else
 			{
-				Node<value_type> *y = z->parent->parent->left;
-				if (y->is_black == 0)
+				if (w->left->is_black == 1)
 				{
-					z->parent->is_black = 1;
-					y->is_black = 1;
-					z->parent->parent->is_black = 0;
-					z = z->parent->parent;
+					w->right->is_black = 1;
+					w->is_black = 0;
+					left_rotate (w);
+					w = x->parent->left;
 				}
-				else
-				{
-					if (z == z->parent->left)
-					{
-						z = z->parent;
-						right_rotate(z);
-					}
-					z->parent->is_black = 1;
-					z->parent->parent->is_black = 0;
-					left_rotate(z->parent->parent);
-				}
+				w->is_black = x->parent->is_black;
+				x->parent->is_black = 1;
+				w->left->is_black = 1;
+				right_rotate (x->parent);
+				x = root;
 			}
 		}
-		root->is_black = 1;
-	}
 
+	// DONE : логика переписана
+		void delete_fixup(Node<value_type> *x)  // стр 359 - Кормен, Алгоритмы
+		{
+			while (x != root && x->is_black == 1)
+			{
+				if (x == x->parent->left)
+					delete_fixup_for_left_child(x);
+				else
+					delete_fixup_for_right_child(x);
+			}
+			x->is_black = 1;
+		}
 
+		int delete_node(Node<value_type> *z) // стр 357 - Кормен, Алгоритмы
+		{
+			Node<value_type> *x, *y;
+			/* 	y - узел следующий (по значению) за z, по сути встает на место z в дереве после удаления;
+				x - узел, который перемещается в исходную позицию узла y в дереве. */
+
+			if (!z || z->NIL) return (0);
+
+			if (z->left->NIL || z->right->NIL) {
+				y = z;
+			} else {
+				y = z->right;
+				while (!y->left->NIL)
+					y = y->left;
+			}
+
+			if (!y->left->NIL)
+				x = y->left;
+			else
+				x = y->right;
+
+			x->parent = y->parent;
+			if (y->parent)
+				if (y == y->parent->left)
+					y->parent->left = x;
+				else
+					y->parent->right = x;
+			else
+				root = x;
+			if (y != z) {
+				delete z->pair;
+				value_type *p = new value_type(*y->pair);
+				z->pair = p;
+			}
+
+			if (y->is_black == 1)
+				delete_fixup (x);
+			// nil.parent = last_node(); //работает и без этого
+			// nil.begin = first_node();
+			size--;
+			delete y;
+			return (1);
+		}
+
+		Node<value_type>* first_node() 
+		{
+			Node<value_type>* tmp = root;
+			while (!tmp->left->NIL)
+				tmp = tmp->left;
+			return (tmp);
+		}
+
+		Node<value_type>* last_node()
+		{
+			Node<value_type>* tmp = root;
+			while (!tmp->right->NIL)
+				tmp = tmp->right;
+			return (tmp);
+		}
+
+		Node<value_type>* next_to_last_node()
+		{
+			Node<value_type>* tmp = root;
+			while (!tmp->right->NIL)
+				tmp = tmp->right;
+			return (tmp->right);
+		}
 };
 
 #endif
