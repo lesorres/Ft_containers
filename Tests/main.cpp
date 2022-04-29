@@ -1,43 +1,12 @@
 #include <iostream>
 #include "/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/sys/time.h"
+#include "config.hpp"
 
 volatile static time_t g_start1;
 volatile static time_t g_start2;
 volatile static time_t g_end1;
 volatile static time_t g_end2;
 int _ratio = 10000;
-
-#define STD 0
-
-#if STD
-
-#include <vector>
-namespace ft = std;
-
-#else
-// #include <vector> //for cases when both ft and std are needed simultaneously
-#include "Vector.hpp"
-#include "Stack.hpp"
-
-
-// template <typename T>
-// void print_vector(std::vector<T> v)
-// {
-// 	std::cout << "vector content:\n";
-// 	size_t s = v.size();
-// 	for (size_t i = 0; i < s; i++)
-// 		std::cout << v[i];
-// 	std::cout << "\n\n";
-// }
-
-#endif
-
-time_t timer() {
-	struct timeval start = {};
-	gettimeofday(&start, nullptr);
-	time_t msecs_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
-	return msecs_time;
-}
 
 template <typename T>
 void print_vector(ft::vector<T> v)
@@ -47,6 +16,14 @@ void print_vector(ft::vector<T> v)
 	for (size_t i = 0; i < s; i++)
 		std::cout << v[i];
 	std::cout << "\n\n";
+}
+
+time_t timer()
+{
+	struct timeval start = {};
+	gettimeofday(&start, nullptr);
+	time_t msecs_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
+	return msecs_time;
 }
 
 	class B {
@@ -80,11 +57,123 @@ void print_vector(ft::vector<T> v)
 
 int main()
 {
+
+// MEMBER FUNCTIONS
+//*************   constructors   *************//
+// default constructor
+// fill constructor
+// range constructor
+// copy constructor
+// destructor
+// copy assignment operator
+
+// ITERATORS
+//*************     iterator     *************//
+// const_iterator
+// reverse_iterator
+// const_reverse_iterator
+
+// CAPACITY
+// size() const
+// max_size() const
+//*************       resize     *************//
+// capacity() const
+// empty() const
+// reserve (size_type n)
+
+// ELEMENT ACCES
+// operator[
+// operator[] (size_type n) const
+// at (size_type n)
+// at (size_type n) const
+// front()
+// front() const
+// back()
+// back() const
+// data()
+// data() const
+
+// MODIFIERS
+//*************       assign     *************//
+//*************     push_back    *************//
+// pop_back
+// insert
+// insert
+// insert
+//*************       erase      *************//
+// swap
+// clear
+// get_allocator
+
 	// ft::vector<int> vector;
 	// ft::vector<int> v;
 	// vector.assign(1000, 1);
 	// v.push_back(*(vector.end() - 1));
 	// v.push_back(*(vector.end() - 2));
+
+//*************       resize     ************//
+	std::cout << "\n----------------Resize test----------------\n";
+
+	ft::vector<int> v_for_resize_0(14);
+
+	std::cout << "vector size: " << v_for_resize_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_resize_0.capacity() << "\n";
+	print_vector(v_for_resize_0);
+
+	v_for_resize_0.resize(10, 2);
+	std::cout << "vector size: " << v_for_resize_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_resize_0.capacity() << "\n";
+	print_vector(v_for_resize_0);
+
+	v_for_resize_0.resize(14, 2);
+	std::cout << "vector size: " << v_for_resize_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_resize_0.capacity() << "\n";
+	print_vector(v_for_resize_0);
+
+	v_for_resize_0.resize(29, 2);
+	std::cout << "vector size: " << v_for_resize_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_resize_0.capacity() << "\n";
+	print_vector(v_for_resize_0);
+
+	v_for_resize_0.resize(10, 2);
+	std::cout << "vector size: " << v_for_resize_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_resize_0.capacity() << "\n";
+	print_vector(v_for_resize_0);
+
+//*************       assign     *************//
+	std::cout << "\n----------------Assign test----------------\n";
+
+	ft::vector<int> v_for_assign_0;
+	v_for_assign_0 = v_for_resize_0;
+
+	v_for_assign_0.assign(2, 5);
+
+	std::cout << "vector size: " << v_for_assign_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_assign_0.capacity() << "\n";
+	print_vector(v_for_assign_0);
+
+	v_for_assign_0.assign(6, 5);
+	std::cout << "vector size: " << v_for_assign_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_assign_0.capacity() << "\n";
+	print_vector(v_for_assign_0);
+
+	v_for_assign_0.assign(30, 11);
+	std::cout << "vector size: " << v_for_assign_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_assign_0.capacity() << "\n";
+	print_vector(v_for_assign_0);
+
+	ft::vector<int> v_for_assign_1(6, 7);
+	print_vector(v_for_assign_1);
+
+	v_for_assign_0.assign(v_for_assign_1.begin(), v_for_assign_1.end());
+	std::cout << "vector size: " << v_for_assign_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_assign_0.capacity() << "\n";
+	print_vector(v_for_assign_0);
+
+	ft::vector<int> v_for_assign_2(14);
+	ft::vector<int> v_for_assign_3(10, 12);
+
+	v_for_assign_2.assign(v_for_assign_3.begin(), v_for_assign_3.end());
 
 //*************       erase      *************//
 	std::cout << "\n----------------Erase test----------------\n";
@@ -153,6 +242,57 @@ int main()
 
 	std::cout << &v_for_pb_0[1] << "\n";
 	std::cout << &v_for_pb_1[1] << "\n";
+
+
+//*************     iterator     *************//
+	std::cout << "\n----------------Iterator test----------------\n";
+	ft::vector<std::string> v_for_it_0;
+	for (size_t i = 0; i < 5; i++)
+		v_for_it_0.push_back("abcd");
+	std::string s_for_it0 = "abcd";
+	ft::vector<std::string>::iterator i_for_it_0 = v_for_it_0.begin() + 1;
+	ft::vector<std::string>::iterator i_for_it_1 = i_for_it_0;
+	// ft::vector<std::string>::iterator i_for_it_2(s_for_it0);
+
+	ft::vector<std::string>::iterator r = v_for_it_0.begin();
+	ft::vector<std::string>::const_iterator u = r;
+
+	std::cout << *r << "\n";
+	std::cout << *u << "\n";
+
+//*************   constructor   *************//
+	std::cout << "\n----------------Constructor test----------------\n";
+		ft::vector<int> v2;
+		ft::vector<int> tmp(1000 * _ratio, 4), tmp2(1000 * _ratio, 5);
+		tmp = tmp2;
+		ft::vector<int> tmp3(tmp);
+		g_start1 = timer();
+		ft::vector<int> tmp4(tmp.begin(), tmp.end());
+		g_end1 = timer();
+		v2.push_back(tmp4.size());
+		v2.push_back(tmp4.capacity());
+		v2.push_back(tmp[2]);
+		v2.push_back(tmp3[2]);
+		v2.push_back(tmp4[2]);
+		try { ft::vector<int> tmp5(-1, -1); }
+		catch (std::exception &e) { v2.push_back(1); }
+
+		// ft::vector<int> v4;
+		// ft::vector<int> tmp(1000 * _ratio, 4), tmp2(1000 * _ratio, 5); //не выполняется деструктор для этого блока памяти (выделен с помощью fill constructor) - Invalid free() / delete / delete[] / realloc()
+		// tmp = tmp2;
+		// ft::vector<int> tmp3(tmp);
+		// g_start2 = timer();
+		// ft::vector<int> tmp4(tmp.begin(), tmp.end());
+		// g_end2 = timer();
+		// v4.push_back(tmp4.size());
+		// v4.push_back(tmp4.capacity());
+		// v4.push_back(tmp[2]);
+		// v4.push_back(tmp3[2]);
+		// v4.push_back(tmp4[2]);
+		// std::cout << "here5\n";
+		// // try { ft::vector<int> tmp5(-1, -1); }
+		// // catch (std::exception &e) { v4.push_back(1); }
+		// std::cout << "here6\n";
 
 //*************        swap       *************//
 
@@ -245,13 +385,16 @@ int main()
 
 	// range
 
+	std::cout << "here\n";
 	ft::vector<std::string> v_for_ins_3 (5, "c");
 	ft::vector<std::string> v_for_ins_4 (2, "h");
 
+	// std::cout << "here\n";
 	std::cout << v_for_ins_3.begin().base() << "\n";
 	// std::cout << v_for_ins_3.insert(v_for_ins_3.begin(), v_for_ins_4.end(), v_for_ins_4.begin()).base();
 	v_for_ins_3.insert(v_for_ins_3.begin(), v_for_ins_4.begin(), v_for_ins_4.end());
 	print_vector(v_for_ins_3);
+		// std::cout << "here\n";
 
 
     // std::unique_ptr<B> k2(new B(3)); //enable if в итераторе 
@@ -285,19 +428,19 @@ int main()
 
 	print_vector(v6);
 
-
-	ft::stack<int> f(v);
-	ft::stack<std::string> fg;
+	ft::vector<int>::reverse_iterator o;              // НЕ РАБОТАЕТ
+	ft::vector<int>::const_reverse_iterator o1;
+	ft::vector<int>::iterator o2;
+	ft::vector<int>::const_iterator o13;
 
 	ft::stack<int> stk;
 	ft::vector<int> v7;
-	ft::vector<int> deque;
+	ft::stack<int> stack;
 	for (int i = 0; i < 100 * _ratio; ++i)
-		deque.push_back(i);
+		stack.push(i);
 	for (int i = 100 * _ratio; i < 200 * _ratio; ++i)
 		stk.push(i);
 	g_start2 = timer();
-	ft::stack<int> stack(deque);
 	ft::stack<int> stack2(stk);
 	ft::stack<int> stack3;
 	stack3 = stack2;

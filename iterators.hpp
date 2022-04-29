@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:13:53 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/26 23:39:39 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/29 23:40:34 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ namespace ft
 			typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category	iterator_category;
 
 		private: // protected?
-			pointer																			current;
+			pointer current;
 
 			explicit vectorIt(pointer const _x) : current(_x) {}
 			template <typename, typename> friend class vector;
@@ -181,7 +181,6 @@ namespace ft
 	// class reverse_vectorIt			// раотает и без наследования которое на строчке выше 
 	{
 		public:
-
 			typedef Iter																	iterator_type;
 			typedef typename iterator_traits<Iter>::reference								reference;
 			typedef typename iterator_traits<Iter>::pointer									pointer;
@@ -189,16 +188,17 @@ namespace ft
 			typedef typename iterator_traits<Iter>::difference_type							iterator_category; //по сути тут не нужен
 
 		private: // protected?
-			iterator_type																			current;
+			iterator_type current;
 
-			//  explicit reverse_vectorIt(pointer const _x) : current(_x) {};
-			template <typename, typename> friend class vector;  // СКОРЕЕ ВСЕГО МОЖНО УБРАТЬ
+			// explicit reverse_vectorIt(pointer const _x) : current(_x) {};
+			// template <typename, typename> friend class vector;  // СКОРЕЕ ВСЕГО МОЖНО УБРАТЬ
 
 		public:
 			pointer base() const {return current;} // iterator 1431
 			reverse_vectorIt() : current() {}; // iterator 1119
 			template <class _Up>
-			reverse_vectorIt(const reverse_vectorIt<_Up>& _x) : current(_x.base()) {}; // iterator 1124
+			reverse_vectorIt(const reverse_vectorIt<_Up>& _x, typename ft::enable_if<std::is_convertible<_Up, Iter>::value>::type* = 0)
+				 : current(_x.base()) {}; // iterator 1124
 			~reverse_vectorIt(){};
 			 explicit reverse_vectorIt(Iter _x) : current(_x) {};
 
@@ -247,164 +247,170 @@ namespace ft
 	template <class T, class Pair>
 	class mapIt : public iterator <bidirectional_iterator_tag, Pair> // в итераторе нет operator=
 	{
-	public:
-		typedef T																			iterator_type;
-		typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::value_type			value_type;
-		typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::difference_type	difference_type;
-		typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::pointer			pointer;
-		typedef const typename  ft::iterator<bidirectional_iterator_tag, Pair>::pointer		const_pointer;
-		typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::reference			reference;
-		typedef const typename ft::iterator<bidirectional_iterator_tag, Pair>::reference	const_reference;
-		typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category		iterator_category;
+		public:
+			typedef T																			iterator_type;
+			typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::value_type			value_type;
+			typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::difference_type	difference_type;
+			typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::pointer			pointer;
+			typedef const typename  ft::iterator<bidirectional_iterator_tag, Pair>::pointer		const_pointer;
+			typedef typename ft::iterator<bidirectional_iterator_tag, Pair>::reference			reference;
+			typedef const typename ft::iterator<bidirectional_iterator_tag, Pair>::reference	const_reference;
+			typedef typename ft::iterator<random_access_iterator_tag, T>::iterator_category		iterator_category;
+		
+		private:
+			iterator_type treeNode;
 
-		iterator_type base() const { return treeNode; }
-		mapIt(T value = NULL) : treeNode(value) {};
-		template <class U, class P>
-		mapIt(const mapIt<U, P>& _x,
-			typename ft::enable_if<std::is_convertible<U, T>::value>::type* = 0)
-				: treeNode(_x.base()) {};
-		~mapIt() {};
+		public:
+			iterator_type base() const { return treeNode; }
+			mapIt(T value = NULL) : treeNode(value) {};
+			template <class U, class P>
+			mapIt(const mapIt<U, P>& _x,
+				typename ft::enable_if<std::is_convertible<U, T>::value>::type* = 0)
+					: treeNode(_x.base()) {};
+			~mapIt() {};
 
-		reference		operator*() {return *(treeNode->pair);}
-		const_reference operator*() const {return *(treeNode->pair);}
-		pointer			operator->() {return treeNode->pair;}
-		const_pointer	operator->() const {return treeNode->pair;}
-		mapIt			&operator++()
-		{
-			moveToNextNode();
-			return *this;
-		}
-		mapIt			operator++(int)
-		{
-			mapIt __tmp(*this);
-			moveToNextNode();
-			return __tmp;
-		}
-		mapIt			&operator--()
-		{
-			moveToPreviousNode();
-			return *this;
-		}
-		mapIt			operator--(int)
-		{
-			mapIt __tmp(*this);
-			moveToPreviousNode();
-			return __tmp;
-		}
-		bool			operator==(mapIt const &__x) const {return treeNode == __x.treeNode;}
-		bool			operator!=(mapIt const &__x) const {return treeNode != __x.treeNode;}
-		bool 			operator>(mapIt const &__x) const {return treeNode->pair > __x.treeNode->pair;}
-		bool 			operator<(mapIt const &__x) const {return __x.treeNode->pair > treeNode->pair;}
-		bool 			operator<=(mapIt const &__x) const {return treeNode->pair <= __x.treeNode->pair;}
-		bool 			operator>=(mapIt const &__x) const {return treeNode->pair >= __x.treeNode->pair;}
-	
-	private:
-		T treeNode;
-
-		void moveToPreviousNode()
-		{
-			T tmp;
-
-			if (treeNode->NIL)
-				treeNode = treeNode->parent;
-			else if (!treeNode->left->NIL)
+			reference		operator*() {return *(treeNode->pair);}
+			const_reference operator*() const {return *(treeNode->pair);}
+			pointer			operator->() {return treeNode->pair;}
+			const_pointer	operator->() const {return treeNode->pair;}
+			mapIt			&operator++()
 			{
-				treeNode = treeNode->left;
-				while (!treeNode->right->NIL)
-					treeNode = treeNode->right;
+				moveToNextNode();
+				return *this;
 			}
-			else
+			mapIt			operator++(int)
 			{
-				tmp = treeNode;
-				treeNode = treeNode->parent;
-				while (treeNode->right != tmp)
+				mapIt __tmp(*this);
+				moveToNextNode();
+				return __tmp;
+			}
+			mapIt			&operator--()
+			{
+				moveToPreviousNode();
+				return *this;
+			}
+			mapIt			operator--(int)
+			{
+				mapIt __tmp(*this);
+				moveToPreviousNode();
+				return __tmp;
+			}
+			bool			operator==(mapIt const &__x) const {return treeNode == __x.treeNode;}
+			bool			operator!=(mapIt const &__x) const {return treeNode != __x.treeNode;}
+			bool 			operator<(mapIt const &__x) const {return __x.treeNode->pair > treeNode->pair;}
+			bool 			operator>(mapIt const &__x) const {return treeNode->pair > __x.treeNode->pair;}
+			bool 			operator>=(mapIt const &__x) const {return treeNode->pair >= __x.treeNode->pair;}
+			bool 			operator<=(mapIt const &__x) const {return treeNode->pair <= __x.treeNode->pair;}
+
+		private:
+			void moveToPreviousNode()
+			{
+				T tmp;
+
+				if (treeNode->NIL)
+					treeNode = treeNode->parent;
+				else if (!treeNode->left->NIL)
+				{
+					treeNode = treeNode->left;
+					while (!treeNode->right->NIL)
+						treeNode = treeNode->right;
+				}
+				else
 				{
 					tmp = treeNode;
-					if (!treeNode->parent)
-					{
-						treeNode = tmp->left - 1;
-						break;
-					}
 					treeNode = treeNode->parent;
+					while (treeNode->right != tmp)
+					{
+						tmp = treeNode;
+						if (!treeNode->parent)
+						{
+							treeNode = tmp->left - 1;
+							break;
+						}
+						treeNode = treeNode->parent;
+					}
 				}
 			}
-		}
 
-		void moveToNextNode()
-		{
-			T curnt;
-			T tmp;
+			void moveToNextNode()
+			{
+				T curnt;
+				T tmp;
 
-			if (treeNode->NIL && treeNode->begin != treeNode)
-				treeNode = treeNode->begin;
-			else if (!treeNode->right->NIL)
-			{
-				treeNode = treeNode->right;
-				while (!treeNode->left->NIL)
-					treeNode = treeNode->left;
-			}
-			else
-			{
-				tmp = treeNode;
-				curnt = treeNode;
-				treeNode = treeNode->parent;
-				if (!treeNode)
+				if (treeNode->NIL && treeNode->begin != treeNode)
+					treeNode = treeNode->begin;
+				else if (!treeNode->right->NIL)
 				{
-					treeNode = curnt->right;
-					return;
+					treeNode = treeNode->right;
+					while (!treeNode->left->NIL)
+						treeNode = treeNode->left;
 				}
-				while (treeNode->left != tmp)
+				else
 				{
-					if (!treeNode->parent)
+					tmp = treeNode;
+					curnt = treeNode;
+					treeNode = treeNode->parent;
+					if (!treeNode)
 					{
 						treeNode = curnt->right;
-						break;
+						return;
 					}
-					tmp = treeNode;
-					treeNode = treeNode->parent;
+					while (treeNode->left != tmp)
+					{
+						if (!treeNode->parent)
+						{
+							treeNode = curnt->right;
+							break;
+						}
+						tmp = treeNode;
+						treeNode = treeNode->parent;
+					}
 				}
 			}
-		}
 	};
 
-	template <class T>
-	class reverse_iterator : public iterator <bidirectional_iterator_tag, T>
+	template <class Iter>
+	class reverse_mapIt : public iterator <bidirectional_iterator_tag, Iter>
 	{
-		T iterator;
-	public:
-		typedef T                                                					iterator_type;
-		typedef typename iterator_traits<T>::difference_type     					difference_type;
-		typedef typename iterator_traits<T>::value_type         					value_type;
-		typedef typename iterator_traits<T>::reference           					reference;
-		typedef const typename iterator_traits<T>::reference     					const_reference;
-		typedef typename iterator_traits<T>::pointer             					pointer;
-		typedef const typename iterator_traits<T>::pointer       					const_pointer;
-		typedef typename iterator_traits<T>::iterator_category  					iterator_category;
+		public:
+			typedef Iter												iterator_type;
+			typedef typename iterator_traits<Iter>::difference_type		difference_type;
+			typedef typename iterator_traits<Iter>::value_type			value_type;
+			typedef typename iterator_traits<Iter>::reference			reference;
+			typedef const typename iterator_traits<Iter>::reference		const_reference;
+			typedef typename iterator_traits<Iter>::pointer				pointer;
+			typedef const typename iterator_traits<Iter>::pointer		const_pointer;
+			typedef typename iterator_traits<Iter>::iterator_category	iterator_category;
 
-		reverse_iterator(iterator_type value = nullptr) : iterator(value) 				{};
-		~reverse_iterator()										{}
-		template <class U> reverse_iterator(const reverse_iterator<U>& other,
-				typename ft::enable_if<std::is_convertible<U, T>::value>::type* = 0)
-						: iterator(other.base()) 					{}
-		reverse_iterator	&operator=(const reverse_iterator &obj)					{ iterator = obj.iterator; return *this; }
-		iterator_type 		base() const								{ return iterator; }
-		reference 		operator*()		                         			{ return *iterator; }
-		pointer 		operator->()		                          			{ return &(operator*()); }
-		reverse_iterator&	operator++()                     					{ --iterator; return *this; }
-		reverse_iterator 	operator++(int)                    					{ reverse_iterator tmp(*this); iterator--; return tmp; }
-		reverse_iterator& 	operator--()                      					{ ++iterator; return *this; }
-		reverse_iterator 	operator--(int)                    					{ reverse_iterator tmp(*this); iterator++; return tmp; }
-		reverse_iterator 	operator+(difference_type n) const 					{ return reverse_iterator(iterator - n); }
-		reverse_iterator& 	operator+=(difference_type n)     					{ iterator -= n; return *this; }
-		reverse_iterator 	operator-(difference_type n) const 					{ return reverse_iterator(iterator + n); }
-		reverse_iterator& 	operator-=(difference_type n)     					{ iterator += n; return *this; }
-		reference 		operator[](difference_type n) const       				{ return *(*this + n); }
-		bool			operator==(reverse_iterator const &obj) const 				{ return iterator == obj.iterator; }
-		bool			operator!=(reverse_iterator const &obj) const 				{ return iterator != obj.iterator; }
-		bool 			operator<(reverse_iterator const &obj) const 				{ return iterator < obj.iterator; }
-		bool 			operator>(reverse_iterator const &obj) const 				{ return iterator > obj.iterator; }
-		bool 			operator<=(reverse_iterator const &obj) const 				{ return iterator <= obj.iterator; }
-		bool 			operator>=(reverse_iterator const &obj) const 				{ return iterator >= obj.iterator; }
+		private:
+			iterator_type iter;
+
+		public:
+			iterator_type base() const {return iter;}
+			reverse_mapIt(iterator_type value = NULL) : iter(value) {};
+			template <class _Up>
+			reverse_mapIt(const reverse_mapIt<_Up>& _x, typename ft::enable_if<std::is_convertible<_Up, Iter>::value>::type* = 0)
+					: iter(_x.base()) {}
+			~reverse_mapIt() {}
+			reverse_mapIt	&operator=(const reverse_mapIt &obj)	{ iter = obj.iter; return *this; }
+			reference 		operator*()								{return *iter;}
+			pointer 		operator->()							{return &(operator*());}
+			reverse_mapIt&	operator++()							{--iter; return *this;}
+			reverse_mapIt 	operator++(int)							{reverse_mapIt tmp(*this); iter--; return tmp;}
+			reverse_mapIt& 	operator--()							{++iter; return *this;}
+			reverse_mapIt 	operator--(int)							{reverse_mapIt tmp(*this); iter++; return tmp;}
+			reverse_mapIt 	operator+(difference_type __n) const	{return reverse_mapIt(iter - __n);}
+			reverse_mapIt& 	operator+=(difference_type __n)			{iter -= __n; return *this;}
+			reverse_mapIt 	operator-(difference_type __n) const	{return reverse_mapIt(iter + __n);}
+			reverse_mapIt& 	operator-=(difference_type __n)			{iter += __n; return *this;}
+			reference 		operator[](difference_type __n) const	{return *(*this + __n);}
+
+			bool			operator==(reverse_mapIt const &__x) const			{return iter == __x.iter;}
+			bool			operator!=(reverse_mapIt const &__x) const			{return iter != __x.iter;}
+			bool 			operator<(reverse_mapIt const &__x) const			{return iter < __x.iter;}
+			bool 			operator>(reverse_mapIt const &__x) const			{return iter > __x.iter;}
+			bool 			operator>=(reverse_mapIt const &__x) const			{return iter >= __x.iter;}
+			bool 			operator<=(reverse_mapIt const &__x) const			{return iter <= __x.iter;}
 	};
 }
 #endif

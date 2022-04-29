@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/12 17:00:19 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/22 12:46:56 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,11 +220,11 @@ namespace ft
 					while (_size != count)
 						pop_back();
 				}
-			}
+			};
 
 			void					reserve (size_type new_cap)
 			{
-				// обработка std::length_error if new_cap > max_size(). не нужна, она есть в аллокаторе
+				// обработка std::length_error if new_cap > max_size() не нужна, она есть в аллокаторе
 				if (new_cap > _capacity)
 				{
 					pointer	tmp;

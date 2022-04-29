@@ -73,6 +73,7 @@
 		"__functional_03": "cpp",
 		"set": "cpp",
 		"csignal": "cpp",
-		"*.ipp": "cpp"
+		"*.ipp": "cpp",
+		"__functional_base_03": "cpp"
 	}
 }

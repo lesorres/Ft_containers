@@ -31,6 +31,72 @@ namespace ft
 		}
 		return true;
 	}
+	
+// DONE : логика переписана 
+	template <class K, typename V>
+	struct pair
+	{
+		typedef K		first_type;
+		typedef V		second_type;
+
+		first_type first;
+		second_type second;
+
+		pair() : first(), second() {}
+		pair(first_type const& x, second_type const& y) : first(x), second(y) {}
+
+		template <class T1, class T2>
+		pair(const pair<T1, T2>& z) : second(z.second), first(z.first) {}
+
+		pair& operator=(pair const& z)
+		{
+			second = z.second;
+			first = z.first;
+			return (*this);
+		}
+	};
+
+	template <class K, class V>
+	inline bool operator==(const pair<K, V>& lhs, const pair<K, V>& rhs)
+	{
+		return (lhs.first == rhs.first && lhs.second == rhs.second);
+	}
+
+	template <class K, class V>
+	inline bool operator!=(const pair<K, V>& lhs, const pair<K, V>& rhs)
+	{
+		return (!(lhs == rhs));
+	}
+
+	template <class K, class V>
+	inline bool operator< (const pair<K, V>& lhs, const pair<K, V>& rhs)
+	{
+		return ((lhs.second < rhs.second && !(rhs.first < lhs.first)) || lhs.first < rhs.first);
+	}
+
+	template <class K, class V>
+	inline bool operator> (const pair<K, V>& lhs, const pair<K, V>& rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template <class K, class V>
+	inline bool operator>=(const pair<K, V>& lhs, const pair<K, V>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
+
+	template <class K, class V>
+	inline bool operator<=(const pair<K, V>& lhs, const pair<K, V>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
+
+	template <class K, class V>
+	inline pair<K, V> make_pair(K lhs, V rhs)
+	{
+		return (pair<K, V>(lhs, rhs));
+	}
 }
 
 #endif

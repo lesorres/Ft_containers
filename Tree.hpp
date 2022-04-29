@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 14:52:16 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/21 21:52:33 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/27 19:36:34 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,23 @@ class Tree
 		size_t size;
 
 		Tree() : size(0) {
+			root = &nil;
 			nil.left = &nil;
 			nil.right = &nil;
 			nil.begin = &nil;
 			nil.parent = 0;
 			nil.is_black = 1;
 			nil.NIL = true;
-			root = &nil;
 		}
 
 		Tree(Tree<value_type> &other) : size(0) {
+			root = &nil;
 			nil.left = &nil;
 			nil.right = &nil;
 			nil.begin = &nil;
 			nil.parent = 0;
 			nil.is_black = 1;
 			nil.NIL = (&other == &other);
-			root = &nil;
 		}
 
 		Tree& operator=(const Tree<value_type>& other)
@@ -269,9 +269,10 @@ class Tree
 
 			if (!z || z->NIL) return (0);
 
-			if (z->left->NIL || z->right->NIL) {
+			if (z->left->NIL || z->right->NIL)
 				y = z;
-			} else {
+			else
+			{
 				y = z->right;
 				while (!y->left->NIL)
 					y = y->left;
