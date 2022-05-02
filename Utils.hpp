@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Utils.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/02 16:39:51 by kmeeseek          #+#    #+#             */
+/*   Updated: 2022/05/02 16:39:52 by kmeeseek         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_HPP
 #define UTILS_HPP
 
@@ -25,14 +37,13 @@ namespace ft
 	{
 		while (first1 != last1)
 		{
-			if (!(*first1 == *first2))   // or: if (!pred(*first1,*first2)), for version 2
+			if (!(*first1 == *first2))
 				return false;
 			++first1; ++first2;
 		}
 		return true;
 	}
-	
-// DONE : логика переписана 
+
 	template <class K, typename V>
 	struct pair
 	{

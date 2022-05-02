@@ -8,11 +8,11 @@ testPassedContainer()
 {
 	# ft container test build
 	sed -ie 's/#define STD 1/#define STD 0/g' ./config.hpp
-	clang++ $1
+	clang++ $1 -Wall -Werror -Wextra
 	./a.out > ft_output
 	# std container test build
 	sed -ie 's/#define STD 0/#define STD 1/g' ./config.hpp
-	clang++ $1
+	clang++ $1 -Wall -Werror -Wextra
 	./a.out > std_output 
 	# checking the difference
 	diff ft_output std_output > output_diff

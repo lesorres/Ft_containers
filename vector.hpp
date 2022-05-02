@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/30 22:57:52 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:42:22 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@
 #include "Utils.hpp"
 #include "Enable_if.hpp"
 #include "Is_integral.hpp"
-
-#if 0
-// for reference:
-#include <vector>
-#include <iterator>
-#endif
 
 namespace ft
 {
@@ -41,7 +35,7 @@ namespace ft
 
 			typedef					T										value_type;
 			typedef	typename		allocator_type::reference				reference;
-			typedef const typename	allocator_type::const_reference			const_reference; // value_type&
+			typedef const typename	allocator_type::const_reference			const_reference;
 			typedef typename		allocator_type::difference_type			difference_type; // std::ptrdiff_t is the signed integer type of the result of subtracting two pointers.
 			typedef typename		allocator_type::pointer					pointer;
 			typedef typename		allocator_type::const_pointer			const_pointer;
@@ -50,12 +44,6 @@ namespace ft
 			typedef	typename		ft::reverse_vectorIt<iterator>			reverse_iterator;
 			typedef	typename		ft::reverse_vectorIt<const_iterator>	const_reverse_iterator;
 
-			// typedef vectorIt     <value_type, бла бла > iterotor;
-			// typedef typename		ft::vector_iterator<value_type>			iterator;
-			// typedef typename		ft::vector_iterator<const value_type>	const_iterator;
-			// typedef typename		ft::reverse_iterator<iterator>			reverse_iterator;
-			// typedef typename		ft::reverse_iterator<const_iterator>	const_reverse_iterator;
-
 		private:
 			pointer														_begin;
 			size_type													_size;
@@ -63,7 +51,7 @@ namespace ft
 			allocator_type												_alloc;
 
 			template <class It>
-			difference_type distance(It first, It second) //!!! ПРОВЕРЯТЬ РАСПОЛОЖЕНИЕ first относительно last, в случае если first > last возвращать ноль, проверит как это отражается на функциях, которые вызывают dofference 
+			difference_type distance(It first, It second)
 			{
 				difference_type i = 0;
 				while(first < second)
@@ -75,65 +63,6 @@ namespace ft
 			}
 
 		public:
-			/*
-			MEMBER FUNCTIONS
-			explicit vector (const allocator_type& alloc = allocator_type())				// default constructor
-							: _begin(NULL), _end(NULL), _cap_end(NULL), _alloc(alloc);
-			explicit vector (size_type n, const const_reference val = value_type(),		// fill constructor
-							const allocator_type& alloc = allocator_type());
-			template <class InputIt>														// range constructor
-			vector (InputIt first, InputIt last,
-							const allocator_type& alloc = allocator_type());
-			vector (const vector& x);													// copy constructor
-			virtual ~vector();															// destructor
-			vector& operator= (const vector& x);											// copy assignment operator
-
-			ITERATORS
-			_DONE	iterator			begin();
-			OK_DONE	const_iterator		begin() const;
-			_DONE	iterator			end();
-			_DONE	const_iterator		end() const;
-					reverse_iterator		rbegin();
-					const_reverse_iterator	rbegin() const;
-					reverse_iterator		rend();
-					const_reverse_iterator	rend() const;
-
-			CAPACITY
-			DONE	size_type			size() const;
-			OK_DONE	size_type			max_size() const;
-			DONE	void				resize (size_type n, value_type val = value_type());
-			DONE	size_type			capacity() const;
-			DONE	bool				empty() const;
-			OK_DONE	void				reserve (size_type n);
-
-			ELEMENT ACCESS
-			DONE	reference			operator[] (size_type n);
-			DONE	const_reference		operator[] (size_type n) const;
-			DONE	reference			at (size_type n);
-			DONE	const_reference		at (size_type n) const;
-			DONE	reference			front();
-			DONE	const_reference		front() const	
-			DONE	reference			back();
-			DONE	const_reference		back() const;
-			OK_DONE pointer				data();
-			OK_DONE pointer				data() const;
-
-			MODIFIERS
-					template <class InputIterator>
-					void				assign (InputIterator first, InputIterator last);
-			DONE 	void				assign (size_type n, const const_reference val);
-			OK_DONE void				push_back (const const_reference val);
-			_DONE 	void				pop_back();
-					iterator			insert (iterator position, const const_reference val);
-					void				insert (iterator position, size_type n, const const_reference val);
-					template <class Iterator>
-					void				insert (iterator position, InputIterator first, InputIterator last);
-			DONE 	iterator			erase (iterator position);
-					iterator			erase (iterator first, iterator last);
-			DONE	void				swap (vector& x);
-			OK_DONE	void				clear();
-					allocator_type		get_allocator() const;
-			*/
 
 			//MEMBER FUNCTIONS
 			explicit vector (const allocator_type& alloc = allocator_type())			// default constructor
@@ -150,7 +79,6 @@ namespace ft
 				_capacity = n;
 				for (size_type i = 0; i < n; ++i)
 					_alloc.construct(_begin + i, val);
-					// _begin[i] = val;
 			};
 
 			template <class InputIt>													// range constructor
@@ -187,7 +115,6 @@ namespace ft
 				_begin = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; ++i)
 					_alloc.construct(_begin + i, x._begin[i]);
-					// _begin[i] = x._begin[i];
 				return *this;
 			};
 
@@ -226,13 +153,11 @@ namespace ft
 
 			void					reserve (size_type new_cap)
 			{
-				// обработка std::length_error if new_cap > max_size() не нужна, она есть в аллокаторе
 				if (new_cap > _capacity)
 				{
 					pointer	tmp;
 					tmp = _alloc.allocate(new_cap);
 					for (size_type i = 0; i < _size; ++i)
-						// _alloc.construct(tmp + i, _begin[i]);
 						tmp[i] = _begin[i];
 					if (_begin)
 						_alloc.deallocate(_begin, _capacity);
@@ -331,8 +256,6 @@ namespace ft
 						reserve(_capacity * 2);
 					for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
 						_begin[i + n] = _begin[i];
-					// for (size_type i = _size - 1 ; i >= indx ; --i) //перенос вправо блока, на место которого будет осуществлена вставка
-						// tmp_vector._begin[i + n] = tmp_vector._begin[i];
 					for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
 						_begin[i] = val;
 					_size = new_size;
@@ -364,12 +287,8 @@ namespace ft
 								tmp_vector.reserve(_capacity * 2);
 							for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
 								tmp_vector._begin[i + n] = tmp_vector._begin[i];
-							// for (size_type i = _size - 1 ; i >= indx ; --i) //перенос вправо блока, на место которого будет осуществлена вставка
-							// 	tmp_vector._begin[i + n] = tmp_vector._begin[i];
 							for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
 							{
-								// _alloc.destroy()
-								// _alloc.construct(_begin + i, *first);
 								tmp_vector._begin[i] = *first;
 								first++;
 							}
@@ -426,13 +345,12 @@ namespace ft
 
 	};
 
-	//NON-MEMBER FUNCTIONS , vector 3358
+	//NON-MEMBER FUNCTIONS
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 			const typename vector<T, Alloc>::size_type sz = lhs.size();
 			return sz == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
-			// return lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()); - почему так нельзя?
 	};
 
 	template <class T, class Alloc>

@@ -20,7 +20,7 @@ int main()
 	const int seed = 348734;
 	srand(seed);
 
-// __________MEMBER FUNCTIONS__________ //
+	// __________MEMBER FUNCTIONS__________ //
 
 	//*************   Constructors   *************//
 	std::cout << "\n----------------Constructors test----------------\n";
@@ -49,7 +49,6 @@ int main()
 	s_for_it0.insert('b');
 	s_for_it0.insert('c');
 
-	// show content:
 	for (ft::set<char,int>::iterator it = s_for_it0.begin(); it != s_for_it0.end(); ++it)
 		std::cout << *it << '\n';
 
@@ -76,7 +75,7 @@ int main()
 	std::cout << s_for_cap_0.size();
 	std::cout <<  (s_for_cap_0.max_size() >= 9223372036854775807);
 
-// 	//*************        Modifiers       *************//
+	// 	//*************        Modifiers       *************//
 	std::cout << "\n----------------Modifiers----------------\n";
 	ft::set<int> s_for_m_0;
 	ft::set<int> s_for_m_1;
@@ -96,7 +95,7 @@ int main()
 	print_set(s_for_m_0);
 	print_set(s_for_m_1);
 
-// 	//*************        Observers       *************//
+	// 	//*************        Observers       *************//
 	std::cout << "\n----------------Observers----------------\n";
 	ft::set<int> s_for_ob0;
 	int highest0;
@@ -152,8 +151,7 @@ int main()
 	std::cout << *s_for_ea_0.equal_range("poeroer").second;
 	std::cout << *s_for_ea_0.equal_range("rtrtrtr").second;
 
-
-// //__________NON-MEMBER FUNCTIONS__________ //
+	//__________NON-MEMBER FUNCTIONS__________ //
 
 	std::cout << (s_for_m_0 == s_for_m_1);
 	std::cout << (s_for_m_0 != s_for_m_1);
@@ -161,7 +159,6 @@ int main()
 	std::cout << (s_for_m_0 < s_for_m_1);
 	std::cout << (s_for_m_0 >= s_for_m_1);
 	std::cout << (s_for_m_0 > s_for_m_1);
-
 
 	return (0);
 }

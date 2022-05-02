@@ -16,7 +16,6 @@ void print_vector(ft::vector<T> &v)
 	for (size_t i = 0; i < s; i++)
 		std::cout << v[i];
 	std::cout << "\n\n";
-	// print_v_size_and_cap(v); - some cases of different capacity
 }
 
 void pointer_func(const int* p, std::size_t size)
@@ -40,7 +39,6 @@ public:
 
 int main()
 {
-
 	// __________MEMBER FUNCTIONS__________ //
 
 	//*************   constructors   *************//
@@ -82,13 +80,13 @@ int main()
 	std::string s_for_it0 = "abcd";
 	ft::vector<std::string>::iterator i_for_it_0 = v_for_it_0.begin() + 1;							// iterator
 	ft::vector<std::string>::iterator i_for_it_1 = i_for_it_0;
-	// ft::vector<std::string>::iterator i_for_it_2(s_for_it0); - не должен принимать строку
 
 	ft::vector<std::string>::iterator r = v_for_it_0.begin();
 	ft::vector<std::string>::const_iterator u = r;													// const_iterator
 
 	std::cout << *r << "\n";
 	std::cout << *u << "\n";
+	std::cout << *i_for_it_1 << "\n";
 
 	ft::vector<int> v_for_it_1;
 	v_for_it_1.push_back(9);
@@ -100,10 +98,9 @@ int main()
 	ft::vector<int>::iterator i_for_it_4 = v_for_it_1.begin() + 2;
 	ft::vector<int>::reverse_iterator i_for_it_2 = v_for_it_1.rbegin() + 2;;						// reverse_iterator
 	ft::vector<int>::const_iterator i_for_it_5 = i_for_it_4;										// const_iterator
-	// ft::vector<int>::const_reverse_iterator i_for_it_3(v_for_it_1.rend()); - does not work //	// const_reverse_iterator
-	// ft::vector<int>::const_reverse_iterator i_for_it_3 = i_for_it_2; - does not work
 	
 	std::cout << (*i_for_it_4 == *i_for_it_2);
+	std::cout << *i_for_it_5;
 
 	ft::vector<std::string> v_for_it_3;
 
@@ -192,16 +189,16 @@ int main()
 	v_for_ea_0.push_back(6);
 	v_for_ea_0.push_back(8);
  
-	std::cout << "Second element: " << v_for_ea_0[1] << '\n';		// operator[]
+	std::cout << "Second element: " << v_for_ea_0[1] << '\n';	// operator[]
 	v_for_ea_0[0] = 5;
 	std::cout << "All numbers:";
-	for (int i = 0; i < v_for_ea_0.size(); i++)
-		std::cout << ' ' << v_for_ea_0[i];							// operator[]
+	for (size_t i = 0; i < v_for_ea_0.size(); i++)
+		std::cout << ' ' << v_for_ea_0[i];						// operator[]
 	std::cout << '\n';
-	for (int i = 0; i < v_for_ea_0.size(); i++)
-		std::cout << ' ' << v_for_ea_0.at(i);						// at
+	for (size_t i = 0; i < v_for_ea_0.size(); i++)
+		std::cout << ' ' << v_for_ea_0.at(i);					// at
 	std::cout << '\n';
-	try																// bounds checking for at
+	try															// bounds checking for at
 	{
 		std::cout << v_for_ea_0.at(v_for_ea_0.size() + 4);
 	}
@@ -242,12 +239,10 @@ int main()
 	v_for_assign_0.assign(2, 5);
 
 	std::cout << "vector size: " << v_for_assign_0.size() << "\n";
-	// std::cout << "vector cpct: " << v_for_assign_0.capacity() << "\n"; - does not work
 	print_vector(v_for_assign_0);
 
 	v_for_assign_0.assign(6, 5);
 	std::cout << "vector size: " << v_for_assign_0.size() << "\n";
-	// std::cout << "vector cpct: " << v_for_assign_0.capacity() << "\n"; - does not work
 	print_vector(v_for_assign_0);
 
 	v_for_assign_0.assign(30, 11);

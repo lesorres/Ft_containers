@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 20:21:02 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/28 21:25:13 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:18:21 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ namespace ft
 	{
 	public:
 		typedef T															key_type;
-		// typedef T															mapped_type;
 		typedef T															value_type;
 		typedef Compare														key_compare;
 		typedef Compare														value_compare;
@@ -58,7 +57,6 @@ namespace ft
 	public:
 
 		//MEMBER FUNCTIONS
-
 		explicit set (const key_compare& comp = key_compare(),			//empty
 					const allocator_type& alloc = allocator_type())
 					: _cmp(comp), _alloc(alloc)
@@ -77,7 +75,6 @@ namespace ft
 				insert(*first);
 		}
 
-		// set(const set &x) : _alloc(x._alloc), _cmp(x._cmp)			//copy
 		set(const set &x)												//copy
 		{
 			_tree = _tree_allocator.allocate(sizeof(Tree<value_type>));
@@ -104,7 +101,6 @@ namespace ft
 		}
 
 		//ITERATORS
-
 		iterator 				begin()				{return (_tree->first_node());}
 		const_iterator 			begin() const		{return (_tree->first_node());}
 		iterator 				end()				{return (_tree->next_to_last_node());}
@@ -115,14 +111,12 @@ namespace ft
 		const_reverse_iterator 	rend() const		{return (const_iterator(_tree->next_to_last_node()));}
 
 		//CAPACITY
-
 		bool 					empty() const		{return (size() == 0);}
 		size_type				size() const 		{return (_tree->size);}
 		size_type				max_size() const 	{return (std::numeric_limits<size_type>::max()
 													/ sizeof(Node<value_type>));};
 
 		//MODIFIERS
-
 		pair<iterator, bool> insert(const value_type& val)
 		{
 			return (node_insert(_tree->root, val));
@@ -186,7 +180,6 @@ namespace ft
 		}
 
 		//OBSERVERS
-
 		key_compare key_comp() const
 		{
 			return (_cmp);
@@ -198,7 +191,6 @@ namespace ft
 		}
 
 		//OPERATIONS
-
 		iterator find(const key_type& k)
 		{
 			Node<value_type> *curnt = _tree->root;

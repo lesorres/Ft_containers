@@ -144,7 +144,7 @@ int main()
 	m_for_o0['b']=200;
 	m_for_o0['c']=300;
 	std::cout << "m_for_o0 contains:\n";
-	char highest0 = m_for_o0.rbegin()->first;     // key value of last element
+	char highest0 = m_for_o0.rbegin()->first;	// key value of last element
 	ft::map<char,int>::iterator it0 = m_for_o0.begin();
 	do
 		std::cout << it0->first << " => " << it0->second << '\n';
@@ -156,7 +156,7 @@ int main()
 	m_for_o1['y']=2002;
 	m_for_o1['z']=3003;
 	std::cout << "m_for_o1 contains:\n";
-	ft::pair<char,int> highest1 = *m_for_o1.rbegin();          // last element
+	ft::pair<char,int> highest1 = *m_for_o1.rbegin();	// last element
 	ft::map<char,int>::iterator it1 = m_for_o1.begin();
 	do
 	{

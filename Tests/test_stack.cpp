@@ -12,7 +12,7 @@ public:
 		this->c = rhs.c;
 		return *this;
 	}
-	virtual ~MutantStack() {} //При работе с наследованием ваши деструкторы должны быть виртуальными https://ravesli.com/urok-165-virtualnye-destruktory-i-prisvaivanie/
+	virtual ~MutantStack() {}
 
 	typedef typename ft::stack<T>::container_type::iterator iterator;
 

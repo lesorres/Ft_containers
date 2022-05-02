@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/17 14:52:16 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/27 19:36:34 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:32:56 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,12 @@ class Tree
 			return (*this);
 		};
 
-	// DONE : логика переписана 
 		void left_rotate(Node<value_type> *x)
 		{
 			Node<value_type> *y = x->right;
 			x->right = y->left;
 			if (!y->left->NIL)
 				y->left->parent = x;
-			// if (!y->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
 				y->parent = x->parent;
 			if (!x->parent)
 				root = y;
@@ -107,17 +105,14 @@ class Tree
 			else
 				x->parent->right = y;
 			y->left = x;
-			// if (!x->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
 				x->parent = y;
 		}
 
-	// DONE : логика переписана 
 		void right_rotate(Node<value_type> *x) {
 			Node<value_type> *y = x->left;
 			x->left = y->right;
 			if (!y->right->NIL)
 				y->right->parent = x;
-			// if (!y->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
 				y->parent = x->parent;
 			if (!x->parent)
 				root = y;
@@ -126,13 +121,12 @@ class Tree
 			else
 				x->parent->left = y;
 			y->right = x;
-			// if (!x->NIL) // нужна ли эта проверка, и тогда зачем? - в книге ее нет, тесты проходят - можно убрать
 				x->parent = y;
 		}
 
 		void insert_fixup(Node<value_type> *z) // стр 349 - Кормен, Алгоритмы
 		{
-			while (z != root && z->parent->is_black == 0)			//зачем условие z != root ? - иначе сега
+			while (z != root && z->parent->is_black == 0)
 			{
 				if (z->parent == z->parent->parent->left)
 				{
@@ -182,7 +176,6 @@ class Tree
 			root->is_black = 1;
 		}
 
-	// DONE : логика переписана
 		void delete_fixup_for_left_child(Node<value_type> *x)
 		{
 			Node<value_type> *w = x->parent->right;
@@ -215,7 +208,6 @@ class Tree
 			}
 		}
 
-	// DONE : логика переписана
 		void delete_fixup_for_right_child(Node<value_type> *x)
 		{
 			Node<value_type> *w = x->parent->left;
@@ -248,7 +240,6 @@ class Tree
 			}
 		}
 
-	// DONE : логика переписана
 		void delete_fixup(Node<value_type> *x)  // стр 359 - Кормен, Алгоритмы
 		{
 			while (x != root && x->is_black == 1)
@@ -299,8 +290,6 @@ class Tree
 
 			if (y->is_black == 1)
 				delete_fixup (x);
-			// nil.parent = last_node(); //работает и без этого
-			// nil.begin = first_node();
 			size--;
 			delete y;
 			return (1);

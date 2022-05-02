@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:14:08 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/05/01 17:39:11 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:15:02 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace ft
 		typedef typename allocator_type::template rebind<Node<value_type> >::other	node_allocator;
 		typedef typename allocator_type::template rebind<Tree<value_type> >::other	tree_allocator;
 
-		class value_compare												//https://www.cplusplus.com/reference/map/map/value_comp/
+		class value_compare		//https://www.cplusplus.com/reference/map/map/value_comp/
 		: public std::binary_function<value_type, value_type, bool>
 		{
 			friend class map;
@@ -70,7 +70,6 @@ namespace ft
 	public:
 
 		//MEMBER FUNCTIONS
-
 		explicit map (const key_compare& comp = key_compare(),			//empty
 					const allocator_type& alloc = allocator_type())
 					: _cmp(comp), _alloc(alloc)
@@ -89,7 +88,7 @@ namespace ft
 				insert(ft::make_pair(first->first, first->second));
 		}
 
-		map(const map &x) : _cmp(x._cmp), _alloc(x._alloc)			//copy
+		map(const map &x) : _cmp(x._cmp), _alloc(x._alloc)				//copy
 		{
 			_tree = _tree_allocator.allocate(sizeof(Tree<value_type>));
 			_tree_allocator.construct(_tree, *(x._tree));
@@ -115,7 +114,6 @@ namespace ft
 		}
 
 		//ITERATORS
-
 		iterator 				begin()				{return (_tree->first_node());}
 		const_iterator 			begin() const		{return (_tree->first_node());}
 		iterator 				end()				{return (_tree->next_to_last_node());}
@@ -126,14 +124,12 @@ namespace ft
 		const_reverse_iterator 	rend() const		{return (const_reverse_iterator(const_iterator(_tree->next_to_last_node())));}
 
 		//CAPACITY
-
 		bool 					empty() const		{return (size() == 0);}
-		size_type				size() const 		{return (_tree->size);}
-		size_type				max_size() const 	{return (std::min((size_type) std::numeric_limits<difference_type>::max(),
+		size_type				size() const		{return (_tree->size);}
+		size_type				max_size() const	{return (std::min((size_type) std::numeric_limits<difference_type>::max(),
 													std::numeric_limits<size_type>::max() / (sizeof(Node<value_type>) + sizeof(T*))));}
 
 		//ELEMENT ACCESS
-
 		mapped_type& operator[](const key_type& k)
 		{
 			return (insert(ft::make_pair(k, mapped_type())).first->second);
@@ -154,7 +150,6 @@ namespace ft
 		}
 
 		//MODIFIERS
-
 		pair<iterator, bool> insert(const value_type& val)
 		{
 			return (node_insert(_tree->root, val));
@@ -218,7 +213,6 @@ namespace ft
 		}
 
 		//OBSERVERS
-
 		key_compare key_comp() const
 		{
 			return (_cmp);
@@ -230,7 +224,6 @@ namespace ft
 		}
 
 		//OPERATIONS
-
 		iterator find(const key_type& k)
 		{
 			Node<value_type> *curnt = _tree->root;
