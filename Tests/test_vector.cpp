@@ -2,21 +2,29 @@
 #include "config.hpp"
 
 template <typename T>
-void print_v_size_and_cap(ft::vector<T> v)
+void print_v_size_and_cap(ft::vector<T> &v)
 {
 	std::cout << "vector size: " << v.size() << "\n";
 	std::cout << "vector cpct: " << v.capacity() << "\n";
 }
 
 template <typename T>
-void print_vector(ft::vector<T> v)
+void print_vector(ft::vector<T> &v)
 {
-	std::cout << "vector content:\n";
+	std::cout << "vector content: ";
 	size_t s = v.size();
 	for (size_t i = 0; i < s; i++)
 		std::cout << v[i];
 	std::cout << "\n\n";
 	// print_v_size_and_cap(v); - some cases of different capacity
+}
+
+void pointer_func(const int* p, std::size_t size)
+{
+	std::cout << "data = ";
+	for (std::size_t i = 0; i < size; ++i)
+		std::cout << p[i] << ' ';
+	std::cout << '\n';
 }
 
 class Object {
@@ -32,13 +40,15 @@ public:
 
 int main()
 {
-	// MEMBER FUNCTIONS
+
+	// __________MEMBER FUNCTIONS__________ //
+
 	//*************   constructors   *************//
 	std::cout << "\n----------------Constructors test----------------\n";
 
 	ft::vector<int> v_for_const_0;												// default constructor
-	ft::vector<int> v_for_const_1(1000 * _ratio, 4);							// fill constructor
-	ft::vector<int> v_for_const_2(1000 * _ratio, 5);							// fill constructor
+	ft::vector<int> v_for_const_2(10, 5);										// fill constructor
+	ft::vector<int> v_for_const_1(10, 4);										// fill constructor
 	v_for_const_1 = v_for_const_2;												// copy assignment operator
 	ft::vector<int> v_for_const_3(v_for_const_1);								// copy constructor
 	ft::vector<int> v_for_const_4(v_for_const_1.begin(), v_for_const_1.end());	// range constructor
@@ -61,10 +71,11 @@ int main()
 	print_vector (v_for_const_3);
 	print_vector (v_for_const_4);
 
-	// ITERATORS
-	//*************     iterator     *************//
-	std::cout << "\n----------------Iterator test----------------\n";
 
+	// __________ITERATORS__________ //
+
+	//*************     iterators     *************//
+	std::cout << "\n----------------Iterator test----------------\n";
 	ft::vector<std::string> v_for_it_0;
 	for (size_t i = 0; i < 5; i++)
 		v_for_it_0.push_back("abcd");
@@ -94,21 +105,26 @@ int main()
 	
 	std::cout << (*i_for_it_4 == *i_for_it_2);
 
-	// ft::vector<int> v_for_it_0;
-	// ft::vector<int> v_for_it_1;
-	// v_for_it_0.assign(1, 2);
-    // v_for_it_1.assign(1000, 1);
-    // v_for_it_0.push_back(*v_for_it_1.rbegin());
-    // v_for_it_0.push_back(*(v_for_it_1.rbegin() + 1));
-	// v_for_it_0.push_back(*(v_for_it_1.rbegin() + 2));
-	// v_for_it_0.push_back(*(v_for_it_1.rbegin() + 1000));
+	ft::vector<std::string> v_for_it_3;
 
-	// print_vector(v_for_it_0);
+	v_for_it_0.assign(1, "2");
+	v_for_it_3.assign(1000, "d");
+	v_for_it_0.push_back(*(v_for_it_3.rbegin()));
+	v_for_it_0.push_back(*(v_for_it_3.rbegin() + 1));
+	v_for_it_0.push_back(*(v_for_it_3.rbegin() + 2));
+	v_for_it_0.push_back(*(v_for_it_3.rbegin() + 1000));
+
+	print_vector(v_for_it_0);
 
 
+	// __________CAPACITY__________ //
 
-	// CAPACITY
-	// max_size() const
+	//*************       max_size     *************//
+	std::cout << "\n----------------max_size----------------\n";
+	ft::vector<char> v_for_mx_0;
+	std::cout.imbue(std::locale("en_US.UTF-8"));    
+	std::cout <<  (v_for_mx_0.max_size() >= 9223372036854775807);
+
 	//*************       resize     *************//
 	std::cout << "\n----------------Resize test----------------\n";
 
@@ -140,22 +156,83 @@ int main()
 
 	//*************       empty     *************//
 	std::cout << "\n----------------Empty test----------------\n";
+	ft::vector<int> v_for_emt_0;
+	int i_for_emt_0 = 0;
+	for (int i = 1; i <= 10; i++)
+		v_for_emt_0.push_back(i);
+	while (!v_for_emt_0.empty())
+	{
+		i_for_emt_0 +=  v_for_emt_0.back();
+		v_for_emt_0.pop_back();
+	}
+	std::cout << "total: " << i_for_emt_0 << '\n';
+
 	//*************       reserve     *************//
 	std::cout << "\n----------------Reserve test----------------\n";
+	ft::vector<Object> v_for_res_0;
+	ft::vector<int> v_for_res_1(10, 2);
 
-	// ELEMENT ACCES
-	// operator[
-	// operator[] (size_type n) const
-	// at (size_type n)
-	// at (size_type n) const
-	// front()
-	// front() const
-	// back()
-	// back() const
-	// data()
-	// data() const
+	print_vector(v_for_res_1);
+	print_v_size_and_cap(v_for_res_0);
+	print_v_size_and_cap(v_for_res_1);
 
-	// MODIFIERS
+	v_for_res_0.reserve(100);
+	v_for_res_1.reserve(1532);
+	
+	print_v_size_and_cap(v_for_res_0);
+	print_v_size_and_cap(v_for_res_1);
+
+
+	// __________ELEMENT ACCES__________ //
+
+	std::cout << "\n----------------Element acces----------------\n";
+	ft::vector<int> v_for_ea_0;
+	v_for_ea_0.push_back(2);
+	v_for_ea_0.push_back(4);
+	v_for_ea_0.push_back(6);
+	v_for_ea_0.push_back(8);
+ 
+	std::cout << "Second element: " << v_for_ea_0[1] << '\n';		// operator[]
+	v_for_ea_0[0] = 5;
+	std::cout << "All numbers:";
+	for (int i = 0; i < v_for_ea_0.size(); i++)
+		std::cout << ' ' << v_for_ea_0[i];							// operator[]
+	std::cout << '\n';
+	for (int i = 0; i < v_for_ea_0.size(); i++)
+		std::cout << ' ' << v_for_ea_0.at(i);						// at
+	std::cout << '\n';
+	try																// bounds checking for at
+	{
+		std::cout << v_for_ea_0.at(v_for_ea_0.size() + 4);
+	}
+	catch (std::out_of_range const& exc)
+	{
+		std::cout << exc.what() << '\n';
+	}
+
+	ft::vector<char> v_for_ea_1;
+	v_for_ea_1.push_back('o');
+	v_for_ea_1.push_back('m');
+	v_for_ea_1.push_back('g');
+	v_for_ea_1.push_back('w');
+	v_for_ea_1.push_back('t');
+	v_for_ea_1.push_back('f');
+ 
+	if (!v_for_ea_1.empty())
+	{
+		std::cout << "The first character is '" << v_for_ea_1.front() << "'.\n";	// front
+		std::cout << "The last character is '" << v_for_ea_1.back() << "'.\n";		// back
+	}
+	ft::vector<int> v_for_ea_2;
+	v_for_ea_1.push_back(1);
+	v_for_ea_1.push_back(2);
+	v_for_ea_1.push_back(3);
+	v_for_ea_1.push_back(4);
+	pointer_func(v_for_ea_2.data(), v_for_ea_2.size());								// data
+
+
+	// __________MODIFIERS__________ //
+
 	//*************       assign     *************//
 	std::cout << "\n----------------Assign test----------------\n";
 
@@ -201,16 +278,71 @@ int main()
 	print_vector(v_for_pb_0);
 	print_vector(v_for_pb_1);
 
-	std::cout << v_for_pb_0[1] << "\n";
-	std::cout << v_for_pb_1[0] << "\n";
+	//*************     pop_back    *************//
+	std::cout << "\n----------------Pop_back test----------------\n";
+	v_for_pb_1.pop_back();
+	print_vector(v_for_pb_1);
 
+	//*************     insert    *************//
+	std::cout << "\n----------------Insert test----------------\n";
+	
+	// value
+	ft::vector<std::string> v_for_ins_0(4, "s");
 
-	// pop_back
-	// insert
-	// insert
-	// insert
-	//*************       erase      *************//
-	// swap
-	// clear
-	// get_allocator
+	std::cout << "vector size: " << v_for_ins_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_ins_0.capacity() << "\n";
+	print_vector(v_for_ins_0);
+
+	v_for_ins_0.insert(v_for_ins_0.begin(), "v");
+
+	std::cout << "vector size: " << v_for_ins_0.size() << "\n";
+	std::cout << "vector cpct: " << v_for_ins_0.capacity() << "\n";
+	print_vector(v_for_ins_0);
+
+	ft::vector<std::string> v_for_ins_1 (99, "k");
+
+	for (int i = 0; i < 90; i++)
+		v_for_ins_1.pop_back();
+
+	std::cout << "vector size: " << v_for_ins_1.size() << "\n";
+	std::cout << "vector cpct: " << v_for_ins_1.capacity() << "\n";
+	print_vector(v_for_ins_1);
+
+	// fill
+	ft::vector<std::string> v_for_ins_2 (4, "k");
+
+	std::cout << "vector size: " << v_for_ins_2.size() << "\n";
+	std::cout << "vector cpct: " << v_for_ins_2.capacity() << "\n";
+	print_vector(v_for_ins_2);
+
+	v_for_ins_2.insert(v_for_ins_2.begin(), 11, "v");
+
+	std::cout << "vector size: " << v_for_ins_2.size() << "\n";
+	std::cout << "vector cpct: " << v_for_ins_2.capacity() << "\n";
+	print_vector(v_for_ins_2);
+
+	//*************        end, begin, swap      *************//
+	std::cout << "\n//*************   end, begin, erase, swap   *************//\n";
+	ft::vector<std::string> v_for_ebs0 (14, "bla");
+	ft::vector<std::string> v_for_ebs1 (3, "hi");
+
+	v_for_ebs1.swap(v_for_ebs0);
+	ft::vector<std::string>::iterator begin = v_for_ebs1.begin();
+	ft::vector<std::string>::iterator end = v_for_ebs1.end();
+	std::cout << (begin != end) << "\n";
+	for (; begin != end; ++begin)
+		std::cout << *begin << "\n";
+
+	//*************        clear, get_allocator      *************//
+	std::cout << "\n//*************   clear, get_allocator   *************//\n";
+	v_for_ebs0.clear();
+	v_for_ebs1.clear();
+
+	print_vector(v_for_ebs0);
+	print_vector(v_for_ebs1);
+
+	v_for_ebs0.get_allocator();
+	v_for_ebs1.get_allocator();
+
+	return (0);
 }

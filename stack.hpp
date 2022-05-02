@@ -1,13 +1,10 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-// #include <vector> //ПОМЕНЯТЬ НА СВОЙ!
 #include "Vector.hpp"
-// #include <stack>
 
 namespace ft
 {
-	// template<class T, class Container = ft::vector<T>>
 	template<class T, class Container = ft::vector<T> > 
 	class stack
 	{
@@ -15,7 +12,7 @@ namespace ft
 			typedef				Container							container_type;
 			typedef typename	container_type::value_type			value_type;
 			typedef typename	container_type::size_type			size_type;
-			typedef typename	container_type::reference			reference; //возможно не нужны
+			typedef typename	container_type::reference			reference;
 			typedef typename	container_type::const_reference		const_reference;
 
 			explicit stack(const Container& cont = container_type()) : c(cont) {} // про explicit -> https://ravesli.com/urok-143-konstruktory-preobrazovaniya-klyuchevye-slova-explicit-i-delete/

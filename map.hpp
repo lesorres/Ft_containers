@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/10 22:14:08 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/29 20:50:08 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/05/01 17:39:11 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ namespace ft
 		{
 			init_construct();
 			for (; first != last; ++first)
-				insert(make_pair(first->first, first->second));
+				insert(ft::make_pair(first->first, first->second));
 		}
 
-		map(const map &x) : _alloc(x._alloc), _cmp(x._cmp)			//copy
+		map(const map &x) : _cmp(x._cmp), _alloc(x._alloc)			//copy
 		{
 			_tree = _tree_allocator.allocate(sizeof(Tree<value_type>));
 			_tree_allocator.construct(_tree, *(x._tree));
@@ -136,7 +136,7 @@ namespace ft
 
 		mapped_type& operator[](const key_type& k)
 		{
-			return (insert(make_pair(k, mapped_type())).first->second);
+			return (insert(ft::make_pair(k, mapped_type())).first->second);
 		}
 
 		mapped_type& at(const key_type& k)

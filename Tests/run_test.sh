@@ -2,26 +2,41 @@
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
+NC='\033[0m'
 
-#test vector
-echo "*************       Vector test     ************"
+testPassedContainer()
+{
+	# ft container test build
+	sed -ie 's/#define STD 1/#define STD 0/g' ./config.hpp
+	clang++ $1
+	./a.out > ft_output
+	# std container test build
+	sed -ie 's/#define STD 0/#define STD 1/g' ./config.hpp
+	clang++ $1
+	./a.out > std_output 
+	# checking the difference
+	diff ft_output std_output > output_diff
+	if [ -s output_diff ]
+	then 
+		echo -e "${RED}FAILED"
+	else
+		echo -e "${GREEN}OK"
+	fi
+	# setting files to the default condition
+	sed -ie 's/#define STD 1/#define STD 0/g' ./config.hpp
+	rm output_diff
+	rm ft_output
+	rm std_output
+}
 
-# ft containers test build
-sed -ie 's/#define STD 1/#define STD 0/g' ./config.hpp
-clang++ test_vector.cpp
-./a.out > ft_output
+echo "*************     VECTOR TEST    ************"
+testPassedContainer test_vector.cpp
 
-# std containers test build
-sed -ie 's/#define STD 0/#define STD 1/g' ./config.hpp
-clang++ test_vector.cpp
-./a.out > std_output
+echo -e "${NC}*************     STACK TEST     ************"
+testPassedContainer test_stack.cpp
 
-# checking the difference
-diff ft_output std_output > output_diff
+echo -e "${NC}*************      MAP TEST      ************"
+testPassedContainer test_map.cpp
 
-if [ -s output_diff ]
-then 
-	echo -e "${RED}FAILED"
-else
-	echo -e "${GREEN}OK"
-fi
+echo -e "${NC}*************      SET TEST      ************"
+testPassedContainer test_set.cpp

@@ -6,7 +6,7 @@
 /*   By: kmeeseek <kmeeseek@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:01:22 by kmeeseek          #+#    #+#             */
-/*   Updated: 2022/04/22 12:46:56 by kmeeseek         ###   ########.fr       */
+/*   Updated: 2022/04/30 22:57:52 by kmeeseek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,8 @@ namespace ft
 				_size = n;
 				_capacity = n;
 				for (size_type i = 0; i < n; ++i)
-					_begin[i] = val;
+					_alloc.construct(_begin + i, val);
+					// _begin[i] = val;
 			};
 
 			template <class InputIt>													// range constructor
@@ -162,7 +163,7 @@ namespace ft
 			};
 
 			vector (const vector& x)													// copy constructor
-					: _begin(0), _capacity(x._capacity), _size(x._size), _alloc(x.get_allocator())
+					: _begin(0), _size(x._size), _capacity(x._capacity), _alloc(x.get_allocator())
 			{
 				_begin = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; ++i)
@@ -185,7 +186,8 @@ namespace ft
 				_capacity = x._capacity;
 				_begin = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; ++i)
-					_begin[i] = x._begin[i];
+					_alloc.construct(_begin + i, x._begin[i]);
+					// _begin[i] = x._begin[i];
 				return *this;
 			};
 
@@ -230,6 +232,7 @@ namespace ft
 					pointer	tmp;
 					tmp = _alloc.allocate(new_cap);
 					for (size_type i = 0; i < _size; ++i)
+						// _alloc.construct(tmp + i, _begin[i]);
 						tmp[i] = _begin[i];
 					if (_begin)
 						_alloc.deallocate(_begin, _capacity);
@@ -328,6 +331,8 @@ namespace ft
 						reserve(_capacity * 2);
 					for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
 						_begin[i + n] = _begin[i];
+					// for (size_type i = _size - 1 ; i >= indx ; --i) //перенос вправо блока, на место которого будет осуществлена вставка
+						// tmp_vector._begin[i + n] = tmp_vector._begin[i];
 					for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
 						_begin[i] = val;
 					_size = new_size;
@@ -359,8 +364,12 @@ namespace ft
 								tmp_vector.reserve(_capacity * 2);
 							for (size_type i = indx ; i < _size ; ++i) //перенос вправо блока, на место которого будет осуществлена вставка
 								tmp_vector._begin[i + n] = tmp_vector._begin[i];
+							// for (size_type i = _size - 1 ; i >= indx ; --i) //перенос вправо блока, на место которого будет осуществлена вставка
+							// 	tmp_vector._begin[i + n] = tmp_vector._begin[i];
 							for (size_type i = indx ; i < indx + n ; ++i) //вставка новых занчений
 							{
+								// _alloc.destroy()
+								// _alloc.construct(_begin + i, *first);
 								tmp_vector._begin[i] = *first;
 								first++;
 							}
@@ -375,7 +384,7 @@ namespace ft
 			iterator				erase (iterator position)
 			{
 				_alloc.destroy(position.base());
-				difference_type i = distance(begin(), position);
+				size_type i = static_cast<size_type>(distance(begin(), position));
 				for (; i < _size; ++i)
 					_begin[i] = _begin[i + 1];
 				_size--;

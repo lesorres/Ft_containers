@@ -7,11 +7,12 @@ volatile static time_t g_end1;
 volatile static time_t g_end2;
 int _ratio = 10000;
 
-#define STD 0
+#define STD 1
 
 #if STD
 
 #include <vector>
+#include <stack>
 namespace ft = std;
 
 #else
@@ -271,19 +272,6 @@ int main()
 	// std::cout << v1.end().base() << "\n";
 	// ii = v1.end();
 	// std::cout << ii.base() << "\n";
-
-	ft::vector<int> v6;
-	ft::vector<int> vector6;
-	v6.assign(1, 2);
-    vector6.assign(1000, 1);
-    g_start2 = timer();
-    v6.push_back(*vector6.rbegin());
-    v6.push_back(*(vector6.rbegin() + 1));
-	v6.push_back(*(vector6.rbegin() + 2));
-	v6.push_back(*(vector6.rbegin() + 1000));
-    g_end2 = timer();
-
-	print_vector(v6);
 
 
 	ft::stack<int> f(v);

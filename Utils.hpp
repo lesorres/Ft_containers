@@ -46,7 +46,7 @@ namespace ft
 		pair(first_type const& x, second_type const& y) : first(x), second(y) {}
 
 		template <class T1, class T2>
-		pair(const pair<T1, T2>& z) : second(z.second), first(z.first) {}
+		pair(const pair<T1, T2>& z) : first(z.first), second(z.second) {}
 
 		pair& operator=(pair const& z)
 		{
